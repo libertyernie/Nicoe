@@ -111,6 +111,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="common\include\CommonConfig.h" />
+    <ClInclude Include="common\include\CommonConfigStrings.h" />
+    <ClInclude Include="common\include\Metadata.h" />
+    <ClInclude Include="common\include\NintendontVersion.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
