@@ -1,7 +1,7 @@
 #include <malloc.h>
 #include <cstring>
 
-#include "common/include/CommonConfig.h"
+#include "CommonConfig.h"
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
