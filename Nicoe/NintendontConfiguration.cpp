@@ -13,6 +13,17 @@ public ref class NintendontConfiguration {
 private:
 	NIN_CFG* ncfg;
 
+	inline String^ ReadString(const char* source) {
+		return gcnew String(source, 0, sizeof(source));
+	}
+
+	inline void WriteString(char* dest, String^ source) {
+		memset(dest, 0, sizeof(dest));
+		IntPtr str2 = Marshal::StringToHGlobalAnsi(source);
+		strncpy(dest, (char*)(void*)str2, sizeof(dest));
+		Marshal::FreeHGlobal(str2);
+	}
+
 	bool LoadNinCFG(String^ path)
 	{
 		bool ConfigLoaded = true;
@@ -113,6 +124,155 @@ public:
 
 		NintendontConfiguration^ x = dynamic_cast<NintendontConfiguration^>(obj);
 		return memcmp(x->ncfg, ncfg, sizeof(NIN_CFG)) == 0;
+	}
+
+	property uint32_t Version {
+		uint32_t get() {
+			return ncfg->Version;
+		}
+	}
+
+	property NinCFGFlags Config {
+		NinCFGFlags get() {
+			return (NinCFGFlags)ncfg->Config;
+		}
+		void set(NinCFGFlags value) {
+			ncfg->Config = (uint32_t)value;
+		}
+	}
+
+	property NinCFGVideoMode VideoMode {
+		NinCFGVideoMode get() {
+			return (NinCFGVideoMode)(ncfg->VideoMode & NIN_VID_MASK);
+		}
+		void set(NinCFGVideoMode value) {
+			ncfg->VideoMode &= ~NIN_VID_MASK;
+			ncfg->VideoMode |= (uint32_t)value & NIN_VID_MASK;
+		}
+	}
+
+	property NinCFGForcedVideoMode ForcedVideoMode {
+		NinCFGForcedVideoMode get() {
+			return (NinCFGForcedVideoMode)(ncfg->VideoMode & NIN_VID_FORCE_MASK);
+		}
+		void set(NinCFGForcedVideoMode value) {
+			ncfg->VideoMode &= ~NIN_VID_FORCE_MASK;
+			ncfg->VideoMode |= (uint32_t)value & NIN_VID_FORCE_MASK;
+		}
+	}
+
+	property bool ProgressiveScan {
+		bool get() {
+			return ncfg->VideoMode & NIN_VID_PROG;
+		}
+		void set(bool value) {
+			ncfg->VideoMode &= ~NIN_VID_PROG;
+			if (value) {
+				ncfg->VideoMode |= NIN_VID_PROG;
+			}
+		}
+	}
+
+	property bool PatchPAL50 {
+		bool get() {
+			return ncfg->VideoMode & NIN_VID_PATCH_PAL50;
+		}
+		void set(bool value) {
+			ncfg->VideoMode &= ~NIN_VID_PATCH_PAL50;
+			if (value) {
+				ncfg->VideoMode |= NIN_VID_PATCH_PAL50;
+			}
+		}
+	}
+
+	property NinCFGLanguage Language {
+		NinCFGLanguage get() {
+			return (NinCFGLanguage)ncfg->Language;
+		}
+		void set(NinCFGLanguage value) {
+			ncfg->Language = (uint32_t)value;
+		}
+	}
+
+	property String^ GamePath {
+		String^ get() {
+			return ReadString(ncfg->GamePath);
+		}
+		void set(String^ value) {
+			WriteString(ncfg->GamePath, value);
+		}
+	}
+
+	property String^ CheatPath {
+		String^ get() {
+			return ReadString(ncfg->CheatPath);
+		}
+		void set(String^ value) {
+			WriteString(ncfg->CheatPath, value);
+		}
+	}
+
+	property uint32_t MaxPads {
+		uint32_t get() {
+			return ncfg->MaxPads;
+		}
+		void set(uint32_t value) {
+			ncfg->MaxPads = value;
+		}
+	}
+
+	property String^ GameID {
+		String^ get() {
+			return ReadString(ncfg->GameID);
+		}
+		void set(String^ value) {
+			WriteString(ncfg->GameID, value);
+		}
+	}
+
+	property uint8_t MemCardBlocks {
+		uint8_t get() {
+			return ncfg->MemCardBlocks;
+		}
+		void set(uint8_t value) {
+			ncfg->MemCardBlocks = value;
+		}
+	}
+
+	property int8_t VideoScale {
+		int8_t get() {
+			return ncfg->VideoScale;
+		}
+		void set(int8_t value) {
+			ncfg->VideoScale = value;
+		}
+	}
+
+	property int8_t VideoOffset {
+		int8_t get() {
+			return ncfg->VideoOffset;
+		}
+		void set(int8_t value) {
+			ncfg->VideoOffset = value;
+		}
+	}
+
+	property uint8_t NetworkProfile {
+		uint8_t get() {
+			return ncfg->NetworkProfile;
+		}
+		void set(uint8_t value) {
+			ncfg->NetworkProfile = value;
+		}
+	}
+
+	property uint32_t WiiUGamepadSlot {
+		uint32_t get() {
+			return ncfg->WiiUGamepadSlot;
+		}
+		void set(uint32_t value) {
+			ncfg->WiiUGamepadSlot = value;
+		}
 	}
 
 	array<uint8_t>^ Export() {

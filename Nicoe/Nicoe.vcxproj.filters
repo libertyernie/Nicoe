@@ -21,6 +21,9 @@
     <ClCompile Include="ByteOrderConversion.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="ByteOrderConversion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonConfig.h">
