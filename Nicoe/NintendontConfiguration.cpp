@@ -24,18 +24,12 @@ private:
 		Marshal::FreeHGlobal(str2);
 	}
 
-	bool LoadNinCFG(String^ path)
+	bool LoadNinCFG(array<uint8_t>^ arr)
 	{
 		bool ConfigLoaded = true;
 
-		int64_t BytesRead;
-
-		{
-			FileStream inStream(path, FileMode::Open, FileAccess::Read);
-			UnmanagedMemoryStream outStream((uint8_t*)ncfg, sizeof(NIN_CFG), sizeof(NIN_CFG), FileAccess::Write);
-			inStream.CopyTo(% outStream);
-			BytesRead = inStream.Position;
-		}
+		int64_t BytesRead = arr->LongLength;
+		Marshal::Copy(arr, 0, IntPtr(ncfg), sizeof(NIN_CFG));
 
 		*ncfg = nincfg_ntoh(*ncfg);
 
@@ -116,6 +110,14 @@ private:
 public:
 	NintendontConfiguration() {
 		ncfg = (NIN_CFG*)malloc(sizeof(NIN_CFG));
+		Reset();
+	}
+
+	void Load(array<uint8_t>^ data) {
+		if (LoadNinCFG(data) == false)
+		{
+			Reset();
+		}
 	}
 
 	bool Equals(Object^ obj) override {
