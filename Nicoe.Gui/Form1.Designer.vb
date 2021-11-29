@@ -28,17 +28,24 @@ Partial Class Form1
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImportMetaxmlForAutobootToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportMetaxmlForAutobootToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportBannerImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.OpenFileDialogXml = New System.Windows.Forms.OpenFileDialog()
+        Me.SaveFileDialogXml = New System.Windows.Forms.SaveFileDialog()
+        Me.SaveFileDialogPng = New System.Windows.Forms.SaveFileDialog()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.HelpToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(284, 24)
@@ -76,6 +83,31 @@ Partial Class Form1
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
+        'ToolsToolStripMenuItem
+        '
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportMetaxmlForAutobootToolStripMenuItem, Me.ExportMetaxmlForAutobootToolStripMenuItem, Me.ExportBannerImageToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.ToolsToolStripMenuItem.Text = "&Tools"
+        '
+        'ImportMetaxmlForAutobootToolStripMenuItem
+        '
+        Me.ImportMetaxmlForAutobootToolStripMenuItem.Name = "ImportMetaxmlForAutobootToolStripMenuItem"
+        Me.ImportMetaxmlForAutobootToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.ImportMetaxmlForAutobootToolStripMenuItem.Text = "Import meta.xml for autoboot"
+        '
+        'ExportMetaxmlForAutobootToolStripMenuItem
+        '
+        Me.ExportMetaxmlForAutobootToolStripMenuItem.Name = "ExportMetaxmlForAutobootToolStripMenuItem"
+        Me.ExportMetaxmlForAutobootToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.ExportMetaxmlForAutobootToolStripMenuItem.Text = "Export meta.xml for autoboot"
+        '
+        'ExportBannerImageToolStripMenuItem
+        '
+        Me.ExportBannerImageToolStripMenuItem.Name = "ExportBannerImageToolStripMenuItem"
+        Me.ExportBannerImageToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.ExportBannerImageToolStripMenuItem.Text = "Export banner image"
+        '
         'HelpToolStripMenuItem
         '
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutToolStripMenuItem})
@@ -86,7 +118,7 @@ Partial Class Form1
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.AboutToolStripMenuItem.Text = "&About"
         '
         'PropertyGrid1
@@ -100,11 +132,25 @@ Partial Class Form1
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.DefaultExt = "bin"
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'SaveFileDialog1
         '
         Me.SaveFileDialog1.FileName = "bin"
+        '
+        'OpenFileDialogXml
+        '
+        Me.OpenFileDialogXml.DefaultExt = "xml"
+        Me.OpenFileDialogXml.Filter = "Homebrew Channel meta.xml files (*.xml)|*.xml"
+        '
+        'SaveFileDialogXml
+        '
+        Me.SaveFileDialogXml.DefaultExt = "xml"
+        Me.SaveFileDialogXml.Filter = "Homebrew Channel meta.xml files (*.xml)|*.xml"
+        '
+        'SaveFileDialogPng
+        '
+        Me.SaveFileDialogPng.DefaultExt = "png"
+        Me.SaveFileDialogPng.Filter = "Portable Network Graphics (*.png)|*.png"
         '
         'Form1
         '
@@ -134,4 +180,11 @@ Partial Class Form1
     Friend WithEvents PropertyGrid1 As PropertyGrid
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
+    Friend WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ExportBannerImageToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ExportMetaxmlForAutobootToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenFileDialogXml As OpenFileDialog
+    Friend WithEvents SaveFileDialogXml As SaveFileDialog
+    Friend WithEvents SaveFileDialogPng As SaveFileDialog
+    Friend WithEvents ImportMetaxmlForAutobootToolStripMenuItem As ToolStripMenuItem
 End Class
