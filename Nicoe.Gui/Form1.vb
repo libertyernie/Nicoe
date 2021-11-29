@@ -5,6 +5,7 @@ Imports Nicoe.BannerExtraction
 
 Public Class Form1
     Private ReadOnly ConfigurationWrapper As New NintendontConfiguration()
+    Private LastDataLoaded = ConfigurationWrapper.Export()
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         PropertyGrid1.SelectedObject = ConfigurationWrapper
@@ -23,6 +24,7 @@ Public Class Form1
         If OpenFileDialog1.ShowDialog(Me) = DialogResult.OK Then
             Using fs As New FileStream(OpenFileDialog1.FileName, FileMode.Open, FileAccess.Read)
                 ConfigurationWrapper.Load(fs)
+                LastDataLoaded = ConfigurationWrapper.Export()
                 PropertyGrid1.Refresh()
             End Using
         End If
@@ -58,6 +60,7 @@ https://github.com/FIX94/Nintendont")
                 Else
                     Dim data = Convert.FromBase64String(base64)
                     ConfigurationWrapper.Load(data)
+                    LastDataLoaded = ConfigurationWrapper.Export()
                     PropertyGrid1.Refresh()
                 End If
             End Using
@@ -123,6 +126,21 @@ https://github.com/FIX94/Nintendont")
             ConfigurationWrapper.GamePath = path
             ConfigurationWrapper.GameID = Await Banner.ReadGameId(path)
             PropertyGrid1.Refresh()
+        End If
+    End Sub
+
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Not ConfigurationWrapper.Export().SequenceEqual(LastDataLoaded) Then
+            Dim result = MsgBox("Save changes to this file before closing?", MsgBoxStyle.YesNoCancel)
+            If result = MsgBoxResult.Cancel Then
+                e.Cancel = True
+            ElseIf result = MsgBoxResult.Yes Then
+                If SaveFileDialog1.ShowDialog(Me) = DialogResult.OK Then
+                    File.WriteAllBytes(SaveFileDialog1.FileName, ConfigurationWrapper.Export())
+                Else
+                    e.Cancel = True
+                End If
+            End If
         End If
     End Sub
 End Class
