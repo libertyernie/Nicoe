@@ -150,15 +150,13 @@ type ConstructorTests () =
         Assert.AreNotEqual (544, data.Length)
         Assert.AreEqual (548, data.Length)
 
-        let flags = List.reduce (fun x y -> x ||| y) [
-            NinCFGFlags.MEMCARDEMU
-            NinCFGFlags.AUTO_BOOT
-            NinCFGFlags.REMLIMIT
-            NinCFGFlags.NATIVE_SI
-        ]
-
         Assert.AreEqual ("GEZE", o1.GameID)
-        Assert.AreEqual (flags, o1.Flags)
+        Assert.IsTrue o1.MEMCARDEMU
+        Assert.IsTrue o1.AUTO_BOOT
+        Assert.IsTrue o1.REMLIMIT
+        Assert.IsTrue o1.NATIVE_SI
+        Assert.IsFalse o1.CC_RUMBLE
+        Assert.IsFalse o1.MC_MULTI
         Assert.AreEqual ("/games/Billy Hatcher and the Giant Egg/game.iso", o1.GamePath)
         Assert.AreEqual (NinCFGVideoMode.AUTO, o1.VideoMode)
         Assert.AreEqual (NinCFGForcedVideoMode.NTSC, o1.ForcedVideoMode)
