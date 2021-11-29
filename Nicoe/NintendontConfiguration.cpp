@@ -137,13 +137,7 @@ public:
 		return memcmp(x->ncfg, ncfg, sizeof(NIN_CFG)) == 0;
 	}
 
-	property uint32_t Version {
-		uint32_t get() {
-			return ncfg->Version;
-		}
-	}
-
-	property NinCFGFlags Config {
+	property NinCFGFlags Flags {
 		NinCFGFlags get() {
 			uint32_t x = (uint32_t)ncfg->Config;
 			System::Console::WriteLine(x);
@@ -186,7 +180,7 @@ public:
 		}
 	}
 
-	property bool PatchPAL50 {
+	property bool PAL50Patch {
 		bool get() {
 			return ncfg->VideoMode & NIN_VID_PATCH_PAL50;
 		}
@@ -225,7 +219,7 @@ public:
 		}
 	}
 
-	property uint32_t MaxPads {
+	property uint32_t MaximumNativePads {
 		uint32_t get() {
 			return ncfg->MaxPads;
 		}
@@ -243,12 +237,30 @@ public:
 		}
 	}
 
-	property uint8_t MemCardBlocks {
+	property uint8_t MemoryCardType {
 		uint8_t get() {
 			return ncfg->MemCardBlocks;
 		}
 		void set(uint8_t value) {
 			ncfg->MemCardBlocks = value;
+		}
+	}
+
+	property int32_t MemoryCardCode {
+		int32_t get() {
+			return MEM_CARD_CODE(ncfg->MemCardBlocks);
+		}
+	}
+
+	property int32_t MemoryCardSize {
+		int32_t get() {
+			return MEM_CARD_SIZE(ncfg->MemCardBlocks);
+		}
+	}
+
+	property int32_t MemoryCardBlocks {
+		int32_t get() {
+			return MEM_CARD_BLOCKS(ncfg->MemCardBlocks);
 		}
 	}
 
@@ -258,6 +270,15 @@ public:
 		}
 		void set(int8_t value) {
 			ncfg->VideoScale = value;
+		}
+	}
+
+	property int32_t VideoWidth {
+		int32_t get() {
+			int32_t width = ncfg->VideoScale + 600;
+			if (width < 640) width = 640;
+			if (width > 720) width = 720;
+			return width;
 		}
 	}
 
