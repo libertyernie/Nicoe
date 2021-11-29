@@ -1,4 +1,4 @@
-namespace Nicoe.Tests
+﻿namespace Nicoe.Tests
 
 open System
 open Microsoft.VisualStudio.TestTools.UnitTesting
@@ -26,6 +26,13 @@ type WrapperTests () =
         Assert.AreNotEqual (o1, o2)
 
     [<TestMethod>]
+    member __.TestGameIDNull() =
+        use o1 = new NintendontConfiguration ()
+        o1.GameID <- "AAAA"
+        o1.GameID <- null
+        Assert.AreEqual ("", o1.GameID)
+
+    [<TestMethod>]
     member __.TestGameIDUnderflow () =
         use o1 = new NintendontConfiguration ()
         o1.GameID <- "AAAA"
@@ -43,6 +50,12 @@ type WrapperTests () =
         use o1 = new NintendontConfiguration ()
         o1.GamePath <- Seq.replicate 300 'X' |> Seq.toArray |> String
         Assert.AreEqual (255, o1.GamePath.Length)
+
+    [<TestMethod>]
+    member __.TestGamePathUnicode () =
+        use o1 = new NintendontConfiguration ()
+        o1.GamePath <- "風のタクト.iso"
+        Assert.AreEqual ("風のタクト.iso", o1.GamePath)
 
     [<TestMethod>]
     member __.TestCheatPathOverflow () =
