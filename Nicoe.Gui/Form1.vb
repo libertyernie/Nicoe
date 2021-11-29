@@ -139,6 +139,25 @@ https://github.com/FIX94/Nintendont")
         End Try
     End Sub
 
+    Private Async Sub ExportBannerImagepadTo128x48ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportBannerImagepadTo128x48ToolStripMenuItem.Click
+        Try
+            Dim bnr = Await Banner.ExportGameCubeBanner(ConfigurationWrapper.GamePath)
+            Dim image1 = bnr.GetImage()
+            Dim image2 As New Bitmap(128, 48)
+            Using graphics = Drawing.Graphics.FromImage(image2)
+                graphics.DrawImage(image1, 16, 8)
+            End Using
+            Using dialog As New SaveFileDialog
+                dialog.Filter = "PNG images (*.png)|*.png"
+                If dialog.ShowDialog() = DialogResult.OK Then
+                    image2.Save(dialog.FileName)
+                End If
+            End Using
+        Catch ex As Exception
+            MsgBox($"Could not export GameCube banner data due to an unknown error. ({ex.GetType().Name}: {ex.Message})")
+        End Try
+    End Sub
+
     Private Async Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Using dialog As New OpenFileDialog
             dialog.Filter = "GameCube disc images (*.iso, *.gcm)|*.iso;*.gcm"
