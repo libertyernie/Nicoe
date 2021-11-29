@@ -121,6 +121,9 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="StringConversion.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
