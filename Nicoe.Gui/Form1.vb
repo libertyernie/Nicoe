@@ -55,7 +55,7 @@ Public Class Form1
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        MsgBox("Nicoe (Nintendont Configuration Editor)
+        MsgBox("Nicoe (Nintendont Configuration Editor) 10.0
 © 2017-2021 libertyernie
 https://github.com/libertyernie/nicoe
 
