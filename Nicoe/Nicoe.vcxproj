@@ -111,15 +111,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ByteOrderConversion.cpp" />
-    <ClCompile Include="ByteOrderConversion.h" />
     <ClCompile Include="NintendontConfiguration.cpp" />
-    <ClCompile Include="StringConversion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonConfig.h" />
-    <ClInclude Include="Enums.h" />
-    <ClInclude Include="StringConversion.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
