@@ -21,10 +21,8 @@ private:
 		array<uint8_t>^ temp_buffer = gcnew array<uint8_t>(sizeof(NIN_CFG));
 		int BytesRead = stream->Read(temp_buffer, 0, temp_buffer->Length);
 
-		{
-			UnmanagedMemoryStream outputStream((uint8_t*)ncfg, 0, sizeof(NIN_CFG), FileAccess::Write);
-			outputStream.Write(temp_buffer, 0, BytesRead);
-		}
+		IntPtr destination(ncfg);
+		Marshal::Copy(temp_buffer, 0, destination, sizeof(NIN_CFG));
 
 		*ncfg = nincfg_ntoh(*ncfg);
 
@@ -119,12 +117,16 @@ public:
 		Reset();
 	}
 
-	void Load(array<uint8_t>^ data) {
-		MemoryStream inputStream(data, false);
-		if (LoadNinCFG(% inputStream) == false)
+	void Load(Stream^ stream) {
+		if (LoadNinCFG(stream) == false)
 		{
 			Reset();
 		}
+	}
+
+	void Load(array<uint8_t>^ data) {
+		MemoryStream inputStream(data, false);
+		Load(% inputStream);
 	}
 
 	bool Equals(Object^ obj) override {
