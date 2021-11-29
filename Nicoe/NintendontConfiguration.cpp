@@ -81,6 +81,8 @@ public enum class NinCFGForcedVideoMode {
 };
 
 #define FLAGBOOL(fname, pname) property bool pname { bool get() { return ncfg->Config & fname; } void set(bool value) { ncfg->Config &= ~fname; if (value) { ncfg->Config |= fname; } } }
+#define STRINGPROP(fname, ptr) property String^ fname { String^ get() { return FromUTF8FixedBuffer(ptr, sizeof(ptr)); } void set(String^ value) { WriteToUTF8FixedBuffer(ptr, sizeof(ptr), value); } }
+#define PRIMITIVEPROP(fname, val, type) property type fname { type get() { return val; } void set(type value) { val = value; } }
 
 public ref class NintendontConfiguration {
 private:
@@ -338,52 +340,16 @@ public:
 		}
 	}
 
-	property String^ GamePath {
-		String^ get() {
-			return FromUTF8FixedBuffer(ncfg->GamePath, sizeof(ncfg->GamePath));
-		}
-		void set(String^ value) {
-			WriteToUTF8FixedBuffer(ncfg->GamePath, sizeof(ncfg->GamePath), value);
-		}
-	}
-
-	property String^ CheatPath {
-		String^ get() {
-			return FromUTF8FixedBuffer(ncfg->CheatPath, sizeof(ncfg->CheatPath));
-		}
-		void set(String^ value) {
-			WriteToUTF8FixedBuffer(ncfg->CheatPath, sizeof(ncfg->CheatPath), value);
-		}
-	}
+	STRINGPROP(GamePath, ncfg->GamePath)
+	STRINGPROP(CheatPath, ncfg->CheatPath)
 
 	[DescriptionAttribute("Set the maximum number of native GameCube controller ports to use on Wii. This should usually be kept at 4 to enable all ports. This option has no effect on Wii U and Wii Family Edition systems.")]
-	property uint32_t MaximumNativePads {
-		uint32_t get() {
-			return ncfg->MaxPads;
-		}
-		void set(uint32_t value) {
-			ncfg->MaxPads = value;
-		}
-	}
+	PRIMITIVEPROP(MaximumNativePads, ncfg->MaxPads, uint32_t)
 
-	property String^ GameID {
-		String^ get() {
-			return FromUTF8FixedBuffer(ncfg->GameID, sizeof(ncfg->GameID));
-		}
-		void set(String^ value) {
-			WriteToUTF8FixedBuffer(ncfg->GameID, sizeof(ncfg->GameID), value);
-		}
-	}
+	STRINGPROP(GameID, ncfg->GameID)
 
 	[DescriptionAttribute("Default size for new memory card images. NOTE: Sizes larger than 251 blocks are known to cause issues.")]
-	property uint8_t MemoryCardType {
-		uint8_t get() {
-			return ncfg->MemCardBlocks;
-		}
-		void set(uint8_t value) {
-			ncfg->MemCardBlocks = value;
-		}
-	}
+	PRIMITIVEPROP(MemoryCardType, ncfg->MemCardBlocks, uint32_t)
 
 	property int32_t MemoryCardSize {
 		int32_t get() {
@@ -398,14 +364,7 @@ public:
 	}
 
 	[DescriptionAttribute("Used to control the video width in pixels. Valid options range from 40 (640px) to 120 (720px), or 0 for Auto.")]
-	property int8_t VideoScale {
-		int8_t get() {
-			return ncfg->VideoScale;
-		}
-		void set(int8_t value) {
-			ncfg->VideoScale = value;
-		}
-	}
+	PRIMITIVEPROP(VideoScale, ncfg->VideoScale, int8_t)
 
 	property String^ VideoWidth {
 		String^ get() {
@@ -414,34 +373,13 @@ public:
 	}
 
 	[DescriptionAttribute("Horizontal video offest. Valid options range from -20 to 20 (inclusive).")]
-	property int8_t VideoOffset {
-		int8_t get() {
-			return ncfg->VideoOffset;
-		}
-		void set(int8_t value) {
-			ncfg->VideoOffset = value;
-		}
-	}
+	PRIMITIVEPROP(VideoOffset, ncfg->VideoOffset, int8_t)
 
 	[DescriptionAttribute("Force a Network Profile to use for BBA Emulation, this option only works on the original Wii because on Wii U the profiles are managed by the Wii U Menu. This means you can even use profiles that cannot connect to the internet.")]
-	property uint8_t NetworkProfile {
-		uint8_t get() {
-			return ncfg->NetworkProfile;
-		}
-		void set(uint8_t value) {
-			ncfg->NetworkProfile = value;
-		}
-	}
+	PRIMITIVEPROP(NetworkProfile, ncfg->NetworkProfile, uint8_t)
 
 	[DescriptionAttribute("Indicates the GameCube controller to assign Wii U GamePad inputs to: 0=P1, 1=P2, 2=P3, 3=P4.")]
-	property uint32_t WiiUGamepadSlot {
-		uint32_t get() {
-			return ncfg->WiiUGamepadSlot;
-		}
-		void set(uint32_t value) {
-			ncfg->WiiUGamepadSlot = value;
-		}
-	}
+	PRIMITIVEPROP(WiiUGamepadSlot, ncfg->WiiUGamepadSlot, uint32_t)
 
 	array<uint8_t>^ Export() {
 		NIN_CFG toExport = nincfg_hton(*ncfg);
