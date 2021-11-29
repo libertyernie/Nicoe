@@ -120,9 +120,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nicoe.AutoBootFork\Nicoe.AutoBootFork.csproj">
+    <ProjectReference Include="..\Nicoe.HBC\Nicoe.HBC.csproj">
       <Project>{80456371-1af8-4462-81a5-9a087db5baaa}</Project>
-      <Name>Nicoe.AutoBootFork</Name>
+      <Name>Nicoe.HBC</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nicoe.BannerExtraction\Nicoe.BannerExtraction.csproj">
       <Project>{405c7f60-4cd2-401f-af6f-46e82f6dd01f}</Project>
