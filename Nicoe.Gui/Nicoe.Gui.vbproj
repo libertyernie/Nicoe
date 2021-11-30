@@ -120,6 +120,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Nicoe.AutoBootFork\Nicoe.AutoBootFork.csproj">
+      <Project>{80456371-1af8-4462-81a5-9a087db5baaa}</Project>
+      <Name>Nicoe.AutoBootFork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nicoe.BannerExtraction\Nicoe.BannerExtraction.csproj">
+      <Project>{405c7f60-4cd2-401f-af6f-46e82f6dd01f}</Project>
+      <Name>Nicoe.BannerExtraction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nicoe\Nicoe.vcxproj">
       <Project>{3c430264-8987-468b-a705-02d1e9a07faa}</Project>
       <Name>Nicoe</Name>

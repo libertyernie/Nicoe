@@ -9,6 +9,10 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Nicoe.Tests", "Nicoe.Tests\
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Nicoe.Gui", "Nicoe.Gui\Nicoe.Gui.vbproj", "{B040D376-FEFD-4E48-8F22-84EC9E18C68A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicoe.AutoBootFork", "Nicoe.AutoBootFork\Nicoe.AutoBootFork.csproj", "{80456371-1AF8-4462-81A5-9A087DB5BAAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nicoe.BannerExtraction", "Nicoe.BannerExtraction\Nicoe.BannerExtraction.csproj", "{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +40,22 @@ Global
 		{B040D376-FEFD-4E48-8F22-84EC9E18C68A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B040D376-FEFD-4E48-8F22-84EC9E18C68A}.Release|x86.ActiveCfg = Release|Any CPU
 		{B040D376-FEFD-4E48-8F22-84EC9E18C68A}.Release|x86.Build.0 = Release|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Debug|x86.Build.0 = Debug|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Release|x86.ActiveCfg = Release|Any CPU
+		{80456371-1AF8-4462-81A5-9A087DB5BAAA}.Release|x86.Build.0 = Release|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Debug|x86.Build.0 = Debug|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Release|x86.ActiveCfg = Release|Any CPU
+		{405C7F60-4CD2-401F-AF6F-46E82F6DD01F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
