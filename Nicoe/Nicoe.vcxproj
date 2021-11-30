@@ -114,9 +114,6 @@
     <ClCompile Include="NintendontConfiguration.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommonConfig.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
