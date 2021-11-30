@@ -9,6 +9,10 @@ Public Class Form1
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         PropertyGrid1.SelectedObject = ConfigurationWrapper
+
+        If My.Application.CommandLineArgs.Count = 1 Then
+            LoadFile(My.Application.CommandLineArgs.Single())
+        End If
     End Sub
 
     Private Sub PropertyGrid1_PropertyValueChanged(s As Object, e As PropertyValueChangedEventArgs) Handles PropertyGrid1.PropertyValueChanged
@@ -20,13 +24,17 @@ Public Class Form1
         PropertyGrid1.Refresh()
     End Sub
 
+    Private Sub LoadFile(path As String)
+        Using fs As New FileStream(path, FileMode.Open, FileAccess.Read)
+            ConfigurationWrapper.Load(fs)
+            LastDataLoaded = ConfigurationWrapper.Export()
+            PropertyGrid1.Refresh()
+        End Using
+    End Sub
+
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
         If OpenFileDialog1.ShowDialog(Me) = DialogResult.OK Then
-            Using fs As New FileStream(OpenFileDialog1.FileName, FileMode.Open, FileAccess.Read)
-                ConfigurationWrapper.Load(fs)
-                LastDataLoaded = ConfigurationWrapper.Export()
-                PropertyGrid1.Refresh()
-            End Using
+            LoadFile(OpenFileDialog1.FileName)
         End If
     End Sub
 
@@ -116,7 +124,7 @@ https://github.com/FIX94/Nintendont")
         End Try
     End Sub
 
-    Private Async Sub btnGamePathBrowse_Click(sender As Object, e As EventArgs) Handles btnGamePathBrowse.Click
+    Private Async Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If OpenFileDialogIso.ShowDialog() = DialogResult.OK Then
             Dim path = OpenFileDialogIso.FileName.Replace("\", "/")
             While path.Length > 0 And path(0) <> "/"c

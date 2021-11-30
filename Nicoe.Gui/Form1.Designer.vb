@@ -40,9 +40,11 @@ Partial Class Form1
         Me.OpenFileDialogXml = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialogXml = New System.Windows.Forms.SaveFileDialog()
         Me.SaveFileDialogPng = New System.Windows.Forms.SaveFileDialog()
-        Me.btnGamePathBrowse = New System.Windows.Forms.Button()
         Me.OpenFileDialogIso = New System.Windows.Forms.OpenFileDialog()
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
+        Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -64,25 +66,25 @@ Partial Class Form1
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.NewToolStripMenuItem.Text = "&New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.OpenToolStripMenuItem.Text = "&Open..."
         '
         'SaveAsToolStripMenuItem
         '
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.SaveAsToolStripMenuItem.Text = "&Save As..."
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'ToolsToolStripMenuItem
@@ -125,13 +127,11 @@ Partial Class Form1
         '
         'PropertyGrid1
         '
-        Me.PropertyGrid1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 27)
+        Me.PropertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 24)
         Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(384, 492)
-        Me.PropertyGrid1.TabIndex = 0
+        Me.PropertyGrid1.Size = New System.Drawing.Size(384, 511)
+        Me.PropertyGrid1.TabIndex = 1
         '
         'OpenFileDialog1
         '
@@ -156,34 +156,48 @@ Partial Class Form1
         Me.SaveFileDialogPng.DefaultExt = "png"
         Me.SaveFileDialogPng.Filter = "Portable Network Graphics (*.png)|*.png"
         '
-        'btnGamePathBrowse
-        '
-        Me.btnGamePathBrowse.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnGamePathBrowse.Location = New System.Drawing.Point(12, 525)
-        Me.btnGamePathBrowse.Name = "btnGamePathBrowse"
-        Me.btnGamePathBrowse.Size = New System.Drawing.Size(360, 24)
-        Me.btnGamePathBrowse.TabIndex = 1
-        Me.btnGamePathBrowse.Text = "Browse for game path (for autoboot)..."
-        Me.btnGamePathBrowse.UseVisualStyleBackColor = True
-        '
         'OpenFileDialogIso
         '
         Me.OpenFileDialogIso.Filter = "GameCube disc images (*.iso, *.gcm)|*.iso;*.gcm"
+        '
+        'TableLayoutPanel1
+        '
+        Me.TableLayoutPanel1.ColumnCount = 2
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.Controls.Add(Me.Button1, 0, 0)
+        Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 535)
+        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
+        Me.TableLayoutPanel1.RowCount = 1
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(384, 26)
+        Me.TableLayoutPanel1.TabIndex = 2
+        '
+        'Button1
+        '
+        Me.Button1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Button1.Location = New System.Drawing.Point(3, 3)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(186, 20)
+        Me.Button1.TabIndex = 0
+        Me.Button1.Text = "Browse for GamePath"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(384, 561)
-        Me.Controls.Add(Me.btnGamePathBrowse)
         Me.Controls.Add(Me.PropertyGrid1)
+        Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "Form1"
         Me.Text = "Nicoe"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        Me.TableLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -207,6 +221,7 @@ Partial Class Form1
     Friend WithEvents SaveFileDialogXml As SaveFileDialog
     Friend WithEvents SaveFileDialogPng As SaveFileDialog
     Friend WithEvents ImportMetaxmlForAutobootToolStripMenuItem As ToolStripMenuItem
-    Private WithEvents btnGamePathBrowse As Button
     Friend WithEvents OpenFileDialogIso As OpenFileDialog
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents Button1 As Button
 End Class
