@@ -25,6 +25,8 @@ private:
 			BytesRead = inStream.Position;
 		}
 
+		*ncfg = nincfg_ntoh(*ncfg);
+
 		switch (ncfg->Version) {
 		case 2:
 			if (BytesRead != 540)
@@ -110,6 +112,16 @@ public:
 
 		NintendontConfiguration^ x = dynamic_cast<NintendontConfiguration^>(obj);
 		return memcmp(x->ncfg, ncfg, sizeof(NIN_CFG)) == 0;
+	}
+
+	array<uint8_t>^ Export() {
+		NIN_CFG toExport = nincfg_hton(*ncfg);
+
+		array<uint8_t>^ arr = gcnew array<uint8_t>(sizeof(NIN_CFG));
+		pin_ptr<uint8_t> pin = &arr[0];
+		memcpy(pin, &toExport, sizeof(NIN_CFG));
+
+		return arr;
 	}
 
 	void Reset() {
