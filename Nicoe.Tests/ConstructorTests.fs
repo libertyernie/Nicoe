@@ -49,15 +49,15 @@ type ConstructorTests () =
 
     [<TestMethod>]
     member __.TestDefaultConstructor () =
-        let o1 = new NintendontConfiguration ()
+        use o1 = new NintendontConfiguration ()
         let data = o1.Export ()
         Assert.AreEqual (548, data.Length)
         Assert.AreEqual (ExpectedDefault, List.ofArray data)
 
     [<TestMethod>]
     member __.TestParseSuccess () =
-        let o1 = new NintendontConfiguration ()
-        let o2 = new NintendontConfiguration ()
+        use o1 = new NintendontConfiguration ()
+        use o2 = new NintendontConfiguration ()
 
         Assert.AreEqual(o1, o2)
 
@@ -73,7 +73,7 @@ type ConstructorTests () =
 
     [<TestMethod>]
     member __.TestParseFail1 () =
-        let o2 = new NintendontConfiguration ()
+        use o2 = new NintendontConfiguration ()
 
         let input = [| yield! French |]
         input.[0] <- 0x02uy
@@ -84,7 +84,7 @@ type ConstructorTests () =
 
     [<TestMethod>]
     member __.TestParseFail2 () =
-        let o2 = new NintendontConfiguration ()
+        use o2 = new NintendontConfiguration ()
 
         let input: byte[] = Array.empty
         o2.Load input
@@ -93,11 +93,58 @@ type ConstructorTests () =
         Assert.AreEqual (ExpectedDefault, List.ofArray data)
 
     [<TestMethod>]
+    member __.TestParseFail3 () =
+        use o2 = new NintendontConfiguration ()
+
+        let input = [| for _ in [0..1000] do 0uy |]
+        o2.Load input
+
+        let data = o2.Export ()
+        Assert.AreEqual (ExpectedDefault, List.ofArray data)
+
+    [<TestMethod>]
     member __.TestUpgradeFrom8 () =
-        let o1 = new NintendontConfiguration ()
-        o1.Load [|
-            yield! ToByteList ["01070cf6000000080000418800000014ffffffff2f67616d65732f42696c6c79204861746368657220616e6420746865204769616e74204567672f67616d652e69736f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"]
-        |]
+        use o1 = new NintendontConfiguration ()
+
+        [
+            "01070cf6000000080000418800000014"
+            "ffffffff2f67616d65732f42696c6c79"
+            "204861746368657220616e6420746865"
+            "204769616e74204567672f67616d652e"
+            "69736f00000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "00000000000000000000000000000000"
+            "000000000000000447455a4500000000"
+        ]
+        |> ToByteList
+        |> Seq.toArray
+        |> o1.Load
 
         let data = o1.Export ()
         Assert.AreNotEqual (544, data.Length)
@@ -110,9 +157,9 @@ type ConstructorTests () =
             NinCFGFlags.NATIVE_SI
         ]
 
-        Assert.AreEqual (10, o1.Version)
+        Assert.AreEqual ("GEZE", o1.GameID)
+        Assert.AreEqual (uint 10, o1.Version)
         Assert.AreEqual (flags, o1.Config)
         Assert.AreEqual ("/games/Billy Hatcher and the Giant Egg/game.iso", o1.GamePath)
-        Assert.AreEqual ("GEZE", o1.GameID)
         Assert.AreEqual (NinCFGVideoMode.AUTO, o1.VideoMode)
         Assert.AreEqual (NinCFGForcedVideoMode.NTSC, o1.ForcedVideoMode)

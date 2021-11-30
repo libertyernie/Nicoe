@@ -3,6 +3,7 @@
 
 #include "CommonConfig.h"
 #include "ByteOrderConversion.h"
+#include "StringConversion.h"
 #include "Enums.h"
 
 using namespace System;
@@ -13,29 +14,34 @@ public ref class NintendontConfiguration {
 private:
 	NIN_CFG* ncfg;
 
-	inline String^ ReadString(const char* source) {
-		return gcnew String(source, 0, sizeof(source));
-	}
-
-	inline void WriteString(char* dest, String^ source) {
-		memset(dest, 0, sizeof(dest));
-		IntPtr str2 = Marshal::StringToHGlobalAnsi(source);
-		strncpy(dest, (char*)(void*)str2, sizeof(dest));
-		Marshal::FreeHGlobal(str2);
-	}
-
-	bool LoadNinCFG(array<uint8_t>^ arr)
+	bool LoadNinCFG(Stream^ stream)
 	{
 		bool ConfigLoaded = true;
 
-		int64_t BytesRead = arr->LongLength;
-		Marshal::Copy(arr, 0, IntPtr(ncfg), sizeof(NIN_CFG));
+		array<uint8_t>^ temp_buffer = gcnew array<uint8_t>(sizeof(NIN_CFG));
+		int BytesRead = stream->Read(temp_buffer, 0, temp_buffer->Length);
+
+		{
+			UnmanagedMemoryStream outputStream((uint8_t*)ncfg, 0, sizeof(NIN_CFG), FileAccess::Write);
+			outputStream.Write(temp_buffer, 0, BytesRead);
+		}
 
 		*ncfg = nincfg_ntoh(*ncfg);
 
 		switch (ncfg->Version) {
 		case 2:
 			if (BytesRead != 540)
+				ConfigLoaded = false;
+			break;
+
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+			if (BytesRead != 544)
 				ConfigLoaded = false;
 			break;
 
@@ -114,7 +120,8 @@ public:
 	}
 
 	void Load(array<uint8_t>^ data) {
-		if (LoadNinCFG(data) == false)
+		MemoryStream inputStream(data, false);
+		if (LoadNinCFG(% inputStream) == false)
 		{
 			Reset();
 		}
@@ -136,6 +143,8 @@ public:
 
 	property NinCFGFlags Config {
 		NinCFGFlags get() {
+			uint32_t x = (uint32_t)ncfg->Config;
+			System::Console::WriteLine(x);
 			return (NinCFGFlags)ncfg->Config;
 		}
 		void set(NinCFGFlags value) {
@@ -198,19 +207,19 @@ public:
 
 	property String^ GamePath {
 		String^ get() {
-			return ReadString(ncfg->GamePath);
+			return FromUTF8FixedBuffer(ncfg->GamePath, sizeof(ncfg->GamePath));
 		}
 		void set(String^ value) {
-			WriteString(ncfg->GamePath, value);
+			WriteToUTF8FixedBuffer(ncfg->GamePath, sizeof(ncfg->GamePath), value);
 		}
 	}
 
 	property String^ CheatPath {
 		String^ get() {
-			return ReadString(ncfg->CheatPath);
+			return FromUTF8FixedBuffer(ncfg->CheatPath, sizeof(ncfg->CheatPath));
 		}
 		void set(String^ value) {
-			WriteString(ncfg->CheatPath, value);
+			WriteToUTF8FixedBuffer(ncfg->CheatPath, sizeof(ncfg->CheatPath), value);
 		}
 	}
 
@@ -225,10 +234,10 @@ public:
 
 	property String^ GameID {
 		String^ get() {
-			return ReadString(ncfg->GameID);
+			return FromUTF8FixedBuffer(ncfg->GameID, sizeof(ncfg->GameID));
 		}
 		void set(String^ value) {
-			WriteString(ncfg->GameID, value);
+			WriteToUTF8FixedBuffer(ncfg->GameID, sizeof(ncfg->GameID), value);
 		}
 	}
 
