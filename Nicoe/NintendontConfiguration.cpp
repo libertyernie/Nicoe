@@ -11,6 +11,8 @@ using namespace System::ComponentModel;
 using namespace System::Runtime::InteropServices;
 using namespace System::IO;
 
+#define FLAGBOOL(fname, pname) property bool pname { bool get() { return ncfg->Config & fname; } void set(bool value) { ncfg->Config &= ~fname; if (value) { ncfg->Config |= fname; } } }
+
 public ref class NintendontConfiguration {
 private:
 	NIN_CFG* ncfg;
@@ -138,18 +140,81 @@ public:
 		return memcmp(x->ncfg, ncfg, sizeof(NIN_CFG)) == 0;
 	}
 
-	property NinCFGFlags Flags {
-		NinCFGFlags get() {
-			uint32_t x = (uint32_t)ncfg->Config;
-			System::Console::WriteLine(x);
-			return (NinCFGFlags)ncfg->Config;
-		}
-		void set(NinCFGFlags value) {
-			ncfg->Config = (uint32_t)value;
-		}
-	}
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_CHEATS, CHEATS)
 
-	[DescriptionAttribute("How to handle video output - Auto, Force, None, or Force (Deflicker).")]
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_DEBUGGER, DEBUGGER)
+
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_DEBUGWAIT, DEBUGWAIT)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Emulates a memory card in Slot A using a .raw file. Disable this option if you want to use a real memory card on an original Wii.")]
+	FLAGBOOL(NIN_CFG_MEMCARDEMU, MEMCARDEMU)
+
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_CHEAT_PATH, CHEAT_PATH)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Patch games to use a 16:9 aspect ratio. (widescreen) Not all games support this option. The patches will not be applied to games that have built-in support for 16:9; use the game's options screen to configure the display mode.")]
+	FLAGBOOL(NIN_CFG_FORCE_WIDE, FORCE_WIDE)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Patch games to always use 480p (progressive scan) output. Requires component cables, or an HDMI cable on Wii U.")]
+	FLAGBOOL(NIN_CFG_FORCE_PROG, FORCE_PROG)
+
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_AUTO_BOOT, AUTO_BOOT)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Disc read speed is normally limited to the performance of the original GameCube disc drive. Unlocking read speed can allow for faster load times, but it can cause problems with games that are extremely sensitive to disc read timing.")]
+	FLAGBOOL(NIN_CFG_REMLIMIT, REMLIMIT)
+
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_OSREPORT, OSREPORT)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("On Wii U, Nintendont sets the display to 4:3, which results in bars on the sides of the screen. If playing a game that supports widescreen, enable this option to set the display back to 16:9. This option has no effect on original Wii systems.")]
+	FLAGBOOL(NIN_CFG_USB, USB)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Use the drive slot LED as a disk activity indicator. The LED will be turned on when reading from or writing to the storage device. This option has no effect on Wii U, since the Wii U does not have a drive slot LED.")]
+	FLAGBOOL(NIN_CFG_LED, LED)
+
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_LOG, LOG)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Nintendont usually uses one emulated memory card image per game. Enabling MULTI switches this to use one memory card image for all USA and PAL games, and one image for all JPN games.")]
+	FLAGBOOL(NIN_CFG_MC_MULTI, MC_MULTI)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Native Control allows use of GBA link cables on original Wii systems. NOTE: Enabling Native Control will disable Bluetooth and USB HID controllers. This option is not available on Wii U.", )]
+	FLAGBOOL(NIN_CFG_NATIVE_SI, NATIVE_SI)
+
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_WIIU_WIDE, WIIU_WIDE)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Arcade Mode re-enables the coin slot functionality of Triforce games. To insert a coin, move the C stick in any direction.", )]
+	FLAGBOOL(NIN_CFG_ARCADE_MODE, ARCADE_MODE)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Enable rumble on Wii Remotes when using the Wii Classic Controller or Wii Classic Controller Pro.", )]
+	FLAGBOOL(NIN_CFG_CC_RUMBLE, CC_RUMBLE)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Skip loading the GameCube IPL, even if it's present on the storage device.", )]
+	FLAGBOOL(NIN_CFG_SKIP_IPL, SKIP_IPL)
+
+	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("Enable BBA Emulation in the following supported titles including all their regions: Mario Kart: Double Dash!! Kirby Air Ride 1080 Avalanche PSO Episode 1&2 PSO Episode III Homeland", )]
+	FLAGBOOL(NIN_CFG_BBA_EMU, BBA_EMU)
+
+	[CategoryAttribute("Flags")]
+	FLAGBOOL(NIN_CFG_MC_SLOTB, MC_SLOTB)
+
 	property NinCFGVideoMode VideoMode {
 		NinCFGVideoMode get() {
 			return (NinCFGVideoMode)(ncfg->VideoMode & NIN_VID_MASK);
@@ -160,7 +225,6 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("The video mode to use if output is forced.")]
 	property NinCFGForcedVideoMode ForcedVideoMode {
 		NinCFGForcedVideoMode get() {
 			return (NinCFGForcedVideoMode)(ncfg->VideoMode & NIN_VID_FORCE_MASK);
@@ -171,7 +235,6 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("Whether to use progressive scan.")]
 	property bool ProgressiveScan {
 		bool get() {
 			return ncfg->VideoMode & NIN_VID_PROG;
@@ -184,7 +247,6 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("Whether to patch the game to force PAL50.")]
 	property bool PAL50Patch {
 		bool get() {
 			return ncfg->VideoMode & NIN_VID_PATCH_PAL50;
@@ -207,7 +269,6 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("The path to the game's disc image, if any.")]
 	property String^ GamePath {
 		String^ get() {
 			return FromUTF8FixedBuffer(ncfg->GamePath, sizeof(ncfg->GamePath));
@@ -217,7 +278,6 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("The path to the game's cheat file, if any.")]
 	property String^ CheatPath {
 		String^ get() {
 			return FromUTF8FixedBuffer(ncfg->CheatPath, sizeof(ncfg->CheatPath));
@@ -237,7 +297,6 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("The four-character game ID, if any.")]
 	property String^ GameID {
 		String^ get() {
 			return FromUTF8FixedBuffer(ncfg->GameID, sizeof(ncfg->GameID));
@@ -247,7 +306,7 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("Indicates the type of emulated memory card to use. Valid options are 0, 2, and 4.")]
+	[DescriptionAttribute("Default size for new memory card images. NOTE: Sizes larger than 251 blocks are known to cause issues.")]
 	property uint8_t MemoryCardType {
 		uint8_t get() {
 			return ncfg->MemCardBlocks;
@@ -295,7 +354,7 @@ public:
 		}
 	}
 
-	[DescriptionAttribute("The network profile in the Wii's system settings to use for BBA emulation, or 0 for Auto.")]
+	[DescriptionAttribute("Force a Network Profile to use for BBA Emulation, this option only works on the original Wii because on Wii U the profiles are managed by the Wii U Menu. This means you can even use profiles that cannot connect to the internet.")]
 	property uint8_t NetworkProfile {
 		uint8_t get() {
 			return ncfg->NetworkProfile;
