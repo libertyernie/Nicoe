@@ -3,6 +3,7 @@
 
 #include "CommonConfig.h"
 #include "ByteOrderConversion.h"
+#include "Enums.h"
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
