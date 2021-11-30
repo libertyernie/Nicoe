@@ -13,8 +13,8 @@ namespace Nicoe.BannerExtraction {
         public byte audioStreaming;
         public byte streamingBufferSize;
         public fixed byte unused[14];
-        public buint wiiMagicWord;
-        public buint gcnMagicWord;
+        public BUInt32 wiiMagicWord;
+        public BUInt32 gcnMagicWord;
         public fixed sbyte gameTitle[64];
 
         public string GameID {
@@ -31,13 +31,13 @@ namespace Nicoe.BannerExtraction {
         [FieldOffset(0)]
         public NintendoDiscHeader header;
         [FieldOffset(0x420)]
-        public bint dolOffset;
+        public BInt32 dolOffset;
         [FieldOffset(0x424)]
-        public bint fstOffset;
+        public BInt32 fstOffset;
         [FieldOffset(0x428)]
-        public bint fstSize;
+        public BInt32 fstSize;
         [FieldOffset(0x42C)]
-        public bint multiDiscMaxFstSize;
+        public BInt32 multiDiscMaxFstSize;
 
         public static GameCubeDiscHeader FromByteArray(byte[] data, int offset = 0) {
             if (data.Length - offset < sizeof(GameCubeDiscHeader)) {
@@ -52,7 +52,7 @@ namespace Nicoe.BannerExtraction {
     [StructLayout(LayoutKind.Explicit, Pack = 1)]
     internal unsafe struct FSTHeader {
         [FieldOffset(8)]
-        public bint numEntries;
+        public BInt32 numEntries;
     }
 
     internal enum FSTFlags : byte {
@@ -67,10 +67,10 @@ namespace Nicoe.BannerExtraction {
         [FieldOffset(1)]
         public BUInt24 filenameOffset;
         [FieldOffset(4)]
-        public bint fileOffset;
+        public BInt32 fileOffset;
         [FieldOffset(4)]
-        public bint parentOffset;
+        public BInt32 parentOffset;
         [FieldOffset(8)]
-        public buint fileLength;
+        public BUInt32 fileLength;
     }
 }

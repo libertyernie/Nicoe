@@ -14,9 +14,9 @@ namespace Nicoe.BannerExtraction {
         public fixed sbyte developer_long[64];
         public fixed sbyte description[128];
 
-        internal bushort* imageData {
+        internal BUInt16* imageData {
             get {
-                fixed (byte* ptr = _imageData) return (bushort*)ptr;
+                fixed (byte* ptr = _imageData) return (BUInt16*)ptr;
             }
         }
 
@@ -24,7 +24,7 @@ namespace Nicoe.BannerExtraction {
             var b = new Bitmap(96, 32, PixelFormat.Format16bppArgb1555);
             BitmapData data = b.LockBits(new Rectangle(0, 0, 96, 32), ImageLockMode.ReadWrite, PixelFormat.Format16bppArgb1555);
 
-            bushort* pixels = imageData;
+            BUInt16* pixels = imageData;
             for (int colblock = 0; colblock < 8; colblock++) {
                 ushort* row0 = (ushort*)data.Scan0 + 384 * colblock;
                 ushort* row1 = row0 + 96;
