@@ -48,14 +48,14 @@ type ConstructorTests () =
     ]
 
     [<TestMethod>]
-    member this.TestDefaultConstructor () =
+    member __.TestDefaultConstructor () =
         let o1 = new NintendontConfiguration ()
         let data = o1.Export ()
         Assert.AreEqual (548, data.Length)
         Assert.AreEqual (ExpectedDefault, List.ofArray data)
 
     [<TestMethod>]
-    member this.TestParseSuccess () =
+    member __.TestParseSuccess () =
         let o1 = new NintendontConfiguration ()
         let o2 = new NintendontConfiguration ()
 
@@ -72,7 +72,7 @@ type ConstructorTests () =
         Assert.AreEqual (French, List.ofArray data)
 
     [<TestMethod>]
-    member this.TestParseFail1 () =
+    member __.TestParseFail1 () =
         let o2 = new NintendontConfiguration ()
 
         let input = [| yield! French |]
@@ -83,7 +83,7 @@ type ConstructorTests () =
         Assert.AreEqual (ExpectedDefault, List.ofArray data)
 
     [<TestMethod>]
-    member this.TestParseFail2 () =
+    member __.TestParseFail2 () =
         let o2 = new NintendontConfiguration ()
 
         let input: byte[] = Array.empty
@@ -91,3 +91,28 @@ type ConstructorTests () =
 
         let data = o2.Export ()
         Assert.AreEqual (ExpectedDefault, List.ofArray data)
+
+    [<TestMethod>]
+    member __.TestUpgradeFrom8 () =
+        let o1 = new NintendontConfiguration ()
+        o1.Load [|
+            yield! ToByteList ["01070cf6000000080000418800000014ffffffff2f67616d65732f42696c6c79204861746368657220616e6420746865204769616e74204567672f67616d652e69736f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"]
+        |]
+
+        let data = o1.Export ()
+        Assert.AreNotEqual (544, data.Length)
+        Assert.AreEqual (548, data.Length)
+
+        let flags = List.reduce (fun x y -> x ||| y) [
+            NinCFGFlags.MEMCARDEMU
+            NinCFGFlags.AUTO_BOOT
+            NinCFGFlags.REMLIMIT
+            NinCFGFlags.NATIVE_SI
+        ]
+
+        Assert.AreEqual (10, o1.Version)
+        Assert.AreEqual (flags, o1.Config)
+        Assert.AreEqual ("/games/Billy Hatcher and the Giant Egg/game.iso", o1.GamePath)
+        Assert.AreEqual ("GEZE", o1.GameID)
+        Assert.AreEqual (NinCFGVideoMode.AUTO, o1.VideoMode)
+        Assert.AreEqual (NinCFGForcedVideoMode.NTSC, o1.ForcedVideoMode)
