@@ -7,6 +7,7 @@
 #include "Enums.h"
 
 using namespace System;
+using namespace System::ComponentModel;
 using namespace System::Runtime::InteropServices;
 using namespace System::IO;
 
@@ -148,6 +149,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("How to handle video output - Auto, Force, None, or Force (Deflicker).")]
 	property NinCFGVideoMode VideoMode {
 		NinCFGVideoMode get() {
 			return (NinCFGVideoMode)(ncfg->VideoMode & NIN_VID_MASK);
@@ -158,6 +160,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("The video mode to use if output is forced.")]
 	property NinCFGForcedVideoMode ForcedVideoMode {
 		NinCFGForcedVideoMode get() {
 			return (NinCFGForcedVideoMode)(ncfg->VideoMode & NIN_VID_FORCE_MASK);
@@ -168,6 +171,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("Whether to use progressive scan.")]
 	property bool ProgressiveScan {
 		bool get() {
 			return ncfg->VideoMode & NIN_VID_PROG;
@@ -180,6 +184,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("Whether to patch the game to force PAL50.")]
 	property bool PAL50Patch {
 		bool get() {
 			return ncfg->VideoMode & NIN_VID_PATCH_PAL50;
@@ -192,6 +197,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("The system language. This option is normally only found on PAL GameCubes, so it usually won't have an effect on NTSC games.")]
 	property NinCFGLanguage Language {
 		NinCFGLanguage get() {
 			return (NinCFGLanguage)ncfg->Language;
@@ -201,6 +207,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("The path to the game's disc image, if any.")]
 	property String^ GamePath {
 		String^ get() {
 			return FromUTF8FixedBuffer(ncfg->GamePath, sizeof(ncfg->GamePath));
@@ -210,6 +217,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("The path to the game's cheat file, if any.")]
 	property String^ CheatPath {
 		String^ get() {
 			return FromUTF8FixedBuffer(ncfg->CheatPath, sizeof(ncfg->CheatPath));
@@ -219,6 +227,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("Set the maximum number of native GameCube controller ports to use on Wii. This should usually be kept at 4 to enable all ports. This option has no effect on Wii U and Wii Family Edition systems.")]
 	property uint32_t MaximumNativePads {
 		uint32_t get() {
 			return ncfg->MaxPads;
@@ -228,6 +237,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("The four-character game ID, if any.")]
 	property String^ GameID {
 		String^ get() {
 			return FromUTF8FixedBuffer(ncfg->GameID, sizeof(ncfg->GameID));
@@ -237,18 +247,13 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("Indicates the type of emulated memory card to use. Valid options are 0, 2, and 4.")]
 	property uint8_t MemoryCardType {
 		uint8_t get() {
 			return ncfg->MemCardBlocks;
 		}
 		void set(uint8_t value) {
 			ncfg->MemCardBlocks = value;
-		}
-	}
-
-	property int32_t MemoryCardCode {
-		int32_t get() {
-			return MEM_CARD_CODE(ncfg->MemCardBlocks);
 		}
 	}
 
@@ -264,6 +269,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("Used to control the video width in pixels. Valid options range from 40 (640px) to 120 (720px), or 0 for Auto.")]
 	property int8_t VideoScale {
 		int8_t get() {
 			return ncfg->VideoScale;
@@ -273,15 +279,13 @@ public:
 		}
 	}
 
-	property int32_t VideoWidth {
-		int32_t get() {
-			int32_t width = ncfg->VideoScale + 600;
-			if (width < 640) width = 640;
-			if (width > 720) width = 720;
-			return width;
+	property String^ VideoWidth {
+		String^ get() {
+			return ncfg->VideoScale < 40 || ncfg->VideoScale > 120 ? "Auto" : (ncfg->VideoScale + 600).ToString();
 		}
 	}
 
+	[DescriptionAttribute("Horizontal video offest. Valid options range from -20 to 20 (inclusive).")]
 	property int8_t VideoOffset {
 		int8_t get() {
 			return ncfg->VideoOffset;
@@ -291,6 +295,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("The network profile in the Wii's system settings to use for BBA emulation, or 0 for Auto.")]
 	property uint8_t NetworkProfile {
 		uint8_t get() {
 			return ncfg->NetworkProfile;
@@ -300,6 +305,7 @@ public:
 		}
 	}
 
+	[DescriptionAttribute("Indicates the GameCube controller to assign Wii U GamePad inputs to: 0=P1, 1=P2, 2=P3, 3=P4.")]
 	property uint32_t WiiUGamepadSlot {
 		uint32_t get() {
 			return ncfg->WiiUGamepadSlot;
