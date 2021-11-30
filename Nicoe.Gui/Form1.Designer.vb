@@ -40,6 +40,8 @@ Partial Class Form1
         Me.OpenFileDialogXml = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialogXml = New System.Windows.Forms.SaveFileDialog()
         Me.SaveFileDialogPng = New System.Windows.Forms.SaveFileDialog()
+        Me.btnGamePathBrowse = New System.Windows.Forms.Button()
+        Me.OpenFileDialogIso = New System.Windows.Forms.OpenFileDialog()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -48,7 +50,7 @@ Partial Class Form1
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(284, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(384, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -123,11 +125,13 @@ Partial Class Form1
         '
         'PropertyGrid1
         '
-        Me.PropertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 24)
+        Me.PropertyGrid1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(0, 27)
         Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(284, 387)
-        Me.PropertyGrid1.TabIndex = 1
+        Me.PropertyGrid1.Size = New System.Drawing.Size(384, 492)
+        Me.PropertyGrid1.TabIndex = 0
         '
         'OpenFileDialog1
         '
@@ -152,11 +156,27 @@ Partial Class Form1
         Me.SaveFileDialogPng.DefaultExt = "png"
         Me.SaveFileDialogPng.Filter = "Portable Network Graphics (*.png)|*.png"
         '
+        'btnGamePathBrowse
+        '
+        Me.btnGamePathBrowse.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnGamePathBrowse.Location = New System.Drawing.Point(12, 525)
+        Me.btnGamePathBrowse.Name = "btnGamePathBrowse"
+        Me.btnGamePathBrowse.Size = New System.Drawing.Size(360, 24)
+        Me.btnGamePathBrowse.TabIndex = 1
+        Me.btnGamePathBrowse.Text = "Browse for game path (for autoboot)..."
+        Me.btnGamePathBrowse.UseVisualStyleBackColor = True
+        '
+        'OpenFileDialogIso
+        '
+        Me.OpenFileDialogIso.Filter = "GameCube disc images (*.iso, *.gcm)|*.iso;*.gcm"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(284, 411)
+        Me.ClientSize = New System.Drawing.Size(384, 561)
+        Me.Controls.Add(Me.btnGamePathBrowse)
         Me.Controls.Add(Me.PropertyGrid1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.MainMenuStrip = Me.MenuStrip1
@@ -187,4 +207,6 @@ Partial Class Form1
     Friend WithEvents SaveFileDialogXml As SaveFileDialog
     Friend WithEvents SaveFileDialogPng As SaveFileDialog
     Friend WithEvents ImportMetaxmlForAutobootToolStripMenuItem As ToolStripMenuItem
+    Private WithEvents btnGamePathBrowse As Button
+    Friend WithEvents OpenFileDialogIso As OpenFileDialog
 End Class

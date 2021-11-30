@@ -73,7 +73,7 @@ https://github.com/FIX94/Nintendont")
                     Dim result = MsgBox("Auto boot is off. Would you like to turn it on?", MsgBoxStyle.YesNoCancel)
                     If result = MsgBoxResult.Cancel Then
                         Return
-                    ElseIf result = MsgBoxResult.Ok Then
+                    ElseIf result = MsgBoxResult.yes Then
                         ConfigurationWrapper.AUTO_BOOT = True
                         PropertyGrid1.Refresh()
                     End If
@@ -90,10 +90,10 @@ https://github.com/FIX94/Nintendont")
                     .Arguments = New String() {Convert.ToBase64String(ConfigurationWrapper.Export())}
                 }
 
-                Using sw As New StringWriter()
+                Using ms As New MemoryStream()
                     Dim serializer As New XmlSerializer(GetType(MetaXml))
-                    serializer.Serialize(sw, meta)
-                    File.WriteAllText(SaveFileDialogXml.FileName, sw.ToString())
+                    serializer.Serialize(ms, meta)
+                    File.WriteAllBytes(SaveFileDialogXml.FileName, ms.ToArray())
                 End Using
             End If
         Catch ex As Exception
@@ -111,5 +111,18 @@ https://github.com/FIX94/Nintendont")
         Catch ex As Exception
             MsgBox($"Could not export GameCube banner data due to an unknown error. ({ex.GetType().Name}: {ex.Message})")
         End Try
+    End Sub
+
+    Private Async Sub btnGamePathBrowse_Click(sender As Object, e As EventArgs) Handles btnGamePathBrowse.Click
+        If OpenFileDialogIso.ShowDialog() = DialogResult.OK Then
+            Dim path = OpenFileDialogIso.FileName.Replace("\", "/")
+            While path.Length > 0 And path(0) <> "/"c
+                path = path.Substring(1)
+            End While
+
+            ConfigurationWrapper.GamePath = path
+            ConfigurationWrapper.GameID = Await Banner.ReadGameId(path)
+            PropertyGrid1.Refresh()
+        End If
     End Sub
 End Class
