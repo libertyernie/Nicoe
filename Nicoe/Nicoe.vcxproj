@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ByteOrderConversion.cpp" />
     <ClCompile Include="ByteOrderConversion.h" />
     <ClCompile Include="NintendontConfiguration.cpp" />
   </ItemGroup>
