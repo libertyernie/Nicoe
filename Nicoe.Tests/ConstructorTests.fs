@@ -158,8 +158,7 @@ type ConstructorTests () =
         ]
 
         Assert.AreEqual ("GEZE", o1.GameID)
-        Assert.AreEqual (uint 10, o1.Version)
-        Assert.AreEqual (flags, o1.Config)
+        Assert.AreEqual (flags, o1.Flags)
         Assert.AreEqual ("/games/Billy Hatcher and the Giant Egg/game.iso", o1.GamePath)
         Assert.AreEqual (NinCFGVideoMode.AUTO, o1.VideoMode)
         Assert.AreEqual (NinCFGForcedVideoMode.NTSC, o1.ForcedVideoMode)

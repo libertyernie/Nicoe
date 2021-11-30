@@ -7,6 +7,10 @@ Public Class Form1
         PropertyGrid1.SelectedObject = ConfigurationWrapper
     End Sub
 
+    Private Sub PropertyGrid1_PropertyValueChanged(s As Object, e As PropertyValueChangedEventArgs) Handles PropertyGrid1.PropertyValueChanged
+        PropertyGrid1.Refresh()
+    End Sub
+
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
         ConfigurationWrapper.Reset()
         PropertyGrid1.Refresh()
@@ -34,6 +38,10 @@ Public Class Form1
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
         MsgBox("Nicoe (Nintendont Configuration Editor)
 © 2017-2021 libertyernie
-https://github.com/libertyernie/nicoe")
+https://github.com/libertyernie/nicoe
+
+Includes code from Nintendont
+© 2014-2021 Nintendont contributors
+https://github.com/FIX94/Nintendont")
     End Sub
 End Class
