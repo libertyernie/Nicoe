@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Nicoe.AutoBootFork {
+namespace Nicoe.HBC {
     [XmlRoot(ElementName = "app")]
     public class MetaXml {
         [XmlAttribute("version")]

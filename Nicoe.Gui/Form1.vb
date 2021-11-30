@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 Imports System.Xml.Serialization
-Imports Nicoe.AutoBootFork
+Imports Nicoe.HBC
 Imports Nicoe.BannerExtraction
 
 Public Class Form1

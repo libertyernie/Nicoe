@@ -7,8 +7,8 @@
     <ProjectGuid>{80456371-1AF8-4462-81A5-9A087DB5BAAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nicoe.AutoBootFork</RootNamespace>
-    <AssemblyName>Nicoe.AutoBootFork</AssemblyName>
+    <RootNamespace>Nicoe.HBC</RootNamespace>
+    <AssemblyName>Nicoe.HBC</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
