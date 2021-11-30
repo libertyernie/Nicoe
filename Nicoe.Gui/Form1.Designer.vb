@@ -38,6 +38,7 @@ Partial Class Form1
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.Button2 = New System.Windows.Forms.Button()
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -108,7 +109,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportMetaxmlForAutobootToolStripMenuItem, Me.ExportMetaxmlForAutobootToolStripMenuItem, Me.ExportBannerImageToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportMetaxmlForAutobootToolStripMenuItem, Me.ExportMetaxmlForAutobootToolStripMenuItem, Me.ExportBannerImageToolStripMenuItem, Me.ExportBannerImagepadTo128x48ToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
         Me.ToolsToolStripMenuItem.Text = "&Tools"
@@ -163,6 +164,12 @@ Partial Class Form1
         Me.Button2.Text = "Browse for CheatPath"
         Me.Button2.UseVisualStyleBackColor = True
         '
+        'ExportBannerImagepadTo128x48ToolStripMenuItem
+        '
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Name = "ExportBannerImagepadTo128x48ToolStripMenuItem"
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Text = "Export banner image (pad to 128x48)"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -197,4 +204,5 @@ Partial Class Form1
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents Button2 As Button
+    Friend WithEvents ExportBannerImagepadTo128x48ToolStripMenuItem As ToolStripMenuItem
 End Class
