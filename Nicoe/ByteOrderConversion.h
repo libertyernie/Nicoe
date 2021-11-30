@@ -2,7 +2,7 @@
 
 #include <winsock.h>
 
-#include "common/include/CommonConfig.h"
+#include "CommonConfig.h"
 
 NIN_CFG nincfg_ntoh(NIN_CFG initial) {
 	NIN_CFG ncfg = initial;

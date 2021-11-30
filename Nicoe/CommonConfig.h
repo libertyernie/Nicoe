@@ -2,8 +2,12 @@
 #ifndef __COMMON_CONFIG_H__
 #define __COMMON_CONFIG_H__
 
+#include <cstdint>
+
+#ifndef NICOE
 #include "NintendontVersion.h"
 #include "Metadata.h"
+#endif
 
 #define NIN_CFG_VERSION		0x0000000A
 
@@ -11,20 +15,20 @@
 
 typedef struct NIN_CFG
 {
-	unsigned int		Magicbytes;		// 0x01070CF6
-	unsigned int		Version;		// 0x00000001
-	unsigned int		Config;
-	unsigned int		VideoMode;
-	unsigned int		Language;
+	uint32_t		Magicbytes;		// 0x01070CF6
+	uint32_t		Version;		// 0x00000001
+	uint32_t		Config;
+	uint32_t		VideoMode;
+	uint32_t		Language;
 	char	GamePath[255];
 	char	CheatPath[255];
-	unsigned int		MaxPads;
-	unsigned int		GameID;
-	unsigned char		MemCardBlocks;
-	signed char			VideoScale;
-	signed char			VideoOffset;
-	unsigned char		NetworkProfile;
-	unsigned int		WiiUGamepadSlot;
+	uint32_t		MaxPads;
+	char	GameID[4];
+	uint8_t			MemCardBlocks;
+	int8_t			VideoScale;
+	int8_t			VideoOffset;
+	uint8_t			NetworkProfile;
+	uint32_t		WiiUGamepadSlot;
 } NIN_CFG;
 
 enum ninconfigbitpos
