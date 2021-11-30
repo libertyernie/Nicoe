@@ -1,15 +1,84 @@
 #include <malloc.h>
 #include <cstring>
+#include <winsock.h>
 
 #include "CommonConfig.h"
-#include "ByteOrderConversion.h"
-#include "StringConversion.h"
-#include "Enums.h"
 
 using namespace System;
 using namespace System::ComponentModel;
-using namespace System::Runtime::InteropServices;
 using namespace System::IO;
+using namespace System::Text;
+using namespace System::Runtime::InteropServices;
+
+NIN_CFG nincfg_ntoh(NIN_CFG initial) {
+	NIN_CFG ncfg = initial;
+	ncfg.Magicbytes = ntohl(initial.Magicbytes);
+	ncfg.Version = ntohl(initial.Version);
+	ncfg.Config = ntohl(initial.Config);
+	ncfg.VideoMode = ntohl(initial.VideoMode);
+	ncfg.Language = ntohl(initial.Language);
+	ncfg.MaxPads = ntohl(initial.MaxPads);
+	ncfg.WiiUGamepadSlot = ntohl(initial.WiiUGamepadSlot);
+	return ncfg;
+}
+
+NIN_CFG nincfg_hton(NIN_CFG initial) {
+	NIN_CFG ncfg = initial;
+	ncfg.Magicbytes = htonl(initial.Magicbytes);
+	ncfg.Version = htonl(initial.Version);
+	ncfg.Config = htonl(initial.Config);
+	ncfg.VideoMode = htonl(initial.VideoMode);
+	ncfg.Language = htonl(initial.Language);
+	ncfg.MaxPads = htonl(initial.MaxPads);
+	ncfg.WiiUGamepadSlot = htonl(initial.WiiUGamepadSlot);
+	return ncfg;
+}
+
+String^ FromUTF8FixedBuffer(const char* ptr, size_t max_len) {
+	size_t len = strnlen(ptr, max_len);
+	array<unsigned char>^ temp_buffer = gcnew array<unsigned char>(len);
+	for (int i = 0; i < len; i++) {
+		temp_buffer[i] = ptr[i];
+	}
+	return Encoding::UTF8->GetString(temp_buffer);
+}
+
+void WriteToUTF8FixedBuffer(char* ptr, size_t max_len, String^ str) {
+	memset(ptr, 0, max_len);
+	if (str != nullptr) {
+		array<unsigned char>^ temp_buffer = Encoding::UTF8->GetBytes(str);
+		for (int i = 0; i < temp_buffer->Length && i < max_len; i++) {
+			ptr[i] = temp_buffer[i];
+		}
+	}
+}
+
+public enum class NinCFGLanguage {
+	ENGLISH = NIN_LAN_ENGLISH,
+	GERMAN = NIN_LAN_GERMAN,
+	FRENCH = NIN_LAN_FRENCH,
+	SPANISH = NIN_LAN_SPANISH,
+	ITALIAN = NIN_LAN_ITALIAN,
+	DUTCH = NIN_LAN_DUTCH,
+	FIRST = NIN_LAN_FIRST,
+	LAST = NIN_LAN_LAST,
+	AUTO = NIN_LAN_AUTO,
+};
+
+public enum class NinCFGVideoMode {
+	AUTO = NIN_VID_AUTO,
+	FORCE = NIN_VID_FORCE,
+	NONE = NIN_VID_NONE,
+	FORCE_DF = NIN_VID_FORCE_DF,
+};
+
+public enum class NinCFGForcedVideoMode {
+	NONE = 0,
+	PAL50 = NIN_VID_FORCE_PAL50,
+	PAL60 = NIN_VID_FORCE_PAL60,
+	NTSC = NIN_VID_FORCE_NTSC,
+	MPAL = NIN_VID_FORCE_MPAL,
+};
 
 #define FLAGBOOL(fname, pname) property bool pname { bool get() { return ncfg->Config & fname; } void set(bool value) { ncfg->Config &= ~fname; if (value) { ncfg->Config |= fname; } } }
 
@@ -175,7 +244,6 @@ public:
 	FLAGBOOL(NIN_CFG_OSREPORT, OSREPORT)
 
 	[CategoryAttribute("Flags")]
-	[DescriptionAttribute("On Wii U, Nintendont sets the display to 4:3, which results in bars on the sides of the screen. If playing a game that supports widescreen, enable this option to set the display back to 16:9. This option has no effect on original Wii systems.")]
 	FLAGBOOL(NIN_CFG_USB, USB)
 
 	[CategoryAttribute("Flags")]
@@ -194,6 +262,7 @@ public:
 	FLAGBOOL(NIN_CFG_NATIVE_SI, NATIVE_SI)
 
 	[CategoryAttribute("Flags")]
+	[DescriptionAttribute("On Wii U, Nintendont sets the display to 4:3, which results in bars on the sides of the screen. If playing a game that supports widescreen, enable this option to set the display back to 16:9. This option has no effect on original Wii systems.")]
 	FLAGBOOL(NIN_CFG_WIIU_WIDE, WIIU_WIDE)
 
 	[CategoryAttribute("Flags")]
