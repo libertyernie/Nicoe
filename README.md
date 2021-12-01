@@ -7,8 +7,9 @@ Serves as a replacement for [NinCFGEditor](https://github.com/libertyernie/NinCF
 
 Features:
 
-* Open / save nincfg.bin files
-* Update nincfg.bin files to version 10 (done automatically upon load - so be sure you're using a recent version of Nintendont)
+* Open / save nincfg.bin files (version 8, 9, or 10)
+* Create new nincfg.bin files (version 10 only)
+* Update nincfg.bin files to version 10
 * Read the Game ID directly from a disc image
 * Extract the banner (as .png) from a disc image
 * Write a meta.xml to autoload a game directly from the Homebrew Channel (not officially supported; requires a custom build of Nintendont that can [accept a base64-encoded command-line parameter](https://github.com/FIX94/Nintendont/pull/532))

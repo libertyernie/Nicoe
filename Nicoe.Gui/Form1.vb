@@ -35,11 +35,17 @@ Public Class Form1
     End Sub
 
     Private Sub LoadFile(data As Byte())
-        Dim fileVersion = data(4) << 24 Or data(5) << 16 Or data(6) << 8 Or data(7)
+        Dim readAs = data(4) << 24 Or data(5) << 16 Or data(6) << 8 Or data(7)
 
-        If fileVersion <= 8 Then
+        If readAs < 10 Then
+            If MsgBox($"This is a version {readAs} nincfg.bin file. Would you like to update it to version 10 so it works with newer builds of Nintendont?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                readAs = 10
+            End If
+        End If
+
+        If readAs <= 8 Then
             ConfigurationWrapper = New V8.NintendontConfiguration()
-        ElseIf fileVersion <= 9 Then
+        ElseIf readAs <= 9 Then
             ConfigurationWrapper = New V9.NintendontConfiguration()
         Else
             ConfigurationWrapper = New V10.NintendontConfiguration()
@@ -47,10 +53,6 @@ Public Class Form1
         ConfigurationWrapper.Load(data)
         LastDataLoaded = ConfigurationWrapper.Export()
         PropertyGrid1.Refresh()
-
-        If fileVersion <> ConfigurationWrapper.Version Then
-            MsgBox($"This file will be automatically updated from version {fileVersion} to version {ConfigurationWrapper.Version} when you save your changes. Be sure you have a matching Nintendont build.")
-        End If
     End Sub
 
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
@@ -76,7 +78,7 @@ Public Class Form1
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        MsgBox("Nicoe (Nintendont Configuration Editor) 10.1
+        MsgBox("Nicoe (Nintendont Configuration Editor) 10.2
 © 2017-2021 libertyernie
 https://github.com/libertyernie/nicoe
 
