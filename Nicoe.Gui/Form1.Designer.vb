@@ -24,6 +24,7 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -34,11 +35,11 @@ Partial Class Form1
         Me.ImportMetaxmlForAutobootToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExportMetaxmlForAutobootToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExportBannerImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.ExportBannerImagepadTo128x48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -53,25 +54,37 @@ Partial Class Form1
         '
         'TableLayoutPanel1
         '
-        Me.TableLayoutPanel1.ColumnCount = 2
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.ColumnCount = 3
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
         Me.TableLayoutPanel1.Controls.Add(Me.Button2, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Button1, 0, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.Button3, 2, 0)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 535)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(384, 26)
         Me.TableLayoutPanel1.TabIndex = 2
+        '
+        'Button2
+        '
+        Me.Button2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Button2.Location = New System.Drawing.Point(130, 3)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(121, 20)
+        Me.Button2.TabIndex = 1
+        Me.Button2.Text = "Browse for CheatPath"
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'Button1
         '
         Me.Button1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Button1.Location = New System.Drawing.Point(3, 3)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(186, 20)
+        Me.Button1.Size = New System.Drawing.Size(121, 20)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Browse for GamePath"
         Me.Button1.UseVisualStyleBackColor = True
@@ -117,20 +130,26 @@ Partial Class Form1
         'ImportMetaxmlForAutobootToolStripMenuItem
         '
         Me.ImportMetaxmlForAutobootToolStripMenuItem.Name = "ImportMetaxmlForAutobootToolStripMenuItem"
-        Me.ImportMetaxmlForAutobootToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.ImportMetaxmlForAutobootToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
         Me.ImportMetaxmlForAutobootToolStripMenuItem.Text = "Import meta.xml for autoboot"
         '
         'ExportMetaxmlForAutobootToolStripMenuItem
         '
         Me.ExportMetaxmlForAutobootToolStripMenuItem.Name = "ExportMetaxmlForAutobootToolStripMenuItem"
-        Me.ExportMetaxmlForAutobootToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.ExportMetaxmlForAutobootToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
         Me.ExportMetaxmlForAutobootToolStripMenuItem.Text = "Export meta.xml for autoboot"
         '
         'ExportBannerImageToolStripMenuItem
         '
         Me.ExportBannerImageToolStripMenuItem.Name = "ExportBannerImageToolStripMenuItem"
-        Me.ExportBannerImageToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.ExportBannerImageToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
         Me.ExportBannerImageToolStripMenuItem.Text = "Export banner image"
+        '
+        'ExportBannerImagepadTo128x48ToolStripMenuItem
+        '
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Name = "ExportBannerImagepadTo128x48ToolStripMenuItem"
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
+        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Text = "Export banner image (pad to 128x48)"
         '
         'HelpToolStripMenuItem
         '
@@ -154,21 +173,15 @@ Partial Class Form1
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
-        'Button2
+        'Button3
         '
-        Me.Button2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Button2.Location = New System.Drawing.Point(195, 3)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(186, 20)
-        Me.Button2.TabIndex = 1
-        Me.Button2.Text = "Browse for CheatPath"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'ExportBannerImagepadTo128x48ToolStripMenuItem
-        '
-        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Name = "ExportBannerImagepadTo128x48ToolStripMenuItem"
-        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Size = New System.Drawing.Size(268, 22)
-        Me.ExportBannerImagepadTo128x48ToolStripMenuItem.Text = "Export banner image (pad to 128x48)"
+        Me.Button3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Button3.Location = New System.Drawing.Point(257, 3)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(124, 20)
+        Me.Button3.TabIndex = 2
+        Me.Button3.Text = "Set to read from disc"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -205,4 +218,5 @@ Partial Class Form1
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents Button2 As Button
     Friend WithEvents ExportBannerImagepadTo128x48ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Button3 As Button
 End Class

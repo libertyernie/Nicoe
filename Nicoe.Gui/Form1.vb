@@ -65,6 +65,9 @@ Public Class Form1
     End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsToolStripMenuItem.Click
+        If ConfigurationWrapper Is Nothing Then
+            Return
+        End If
         Using dialog As New SaveFileDialog
             dialog.Filter = "Nintendont configuration files (*.bin)|*.bin"
             If dialog.ShowDialog(Me) = DialogResult.OK Then
@@ -105,11 +108,31 @@ https://github.com/FIX94/Nintendont")
         End Using
     End Sub
 
+    Private Async Function GetBanner() As Task(Of BNR?)
+        Dim o = (ConfigurationWrapper.GamePath)
+
+        If String.IsNullOrEmpty(ConfigurationWrapper.GamePath) Then
+            Return Nothing
+        ElseIf ConfigurationWrapper.GamePath = "di" Then
+            Return Nothing
+        End If
+
+        Try
+            Return Await Banner.ExportGameCubeBanner(ConfigurationWrapper.GamePath)
+        Catch ex As Exception
+            MsgBox($"Could not export GameCube banner data due to an unknown error. ({ex.GetType().Name}: {ex.Message})")
+            Return Nothing
+        End Try
+    End Function
+
     Private Async Sub ExportMetaxmlForAutobootToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportMetaxmlForAutobootToolStripMenuItem.Click
+        If ConfigurationWrapper Is Nothing Then
+            Return
+        End If
         Try
             MsgBox("This feature requires a modified build of Nintendont that can read the base64-encoded contents of a nincfg.bin file from a command-line argument.")
-            Dim bnr = Await Banner.ExportGameCubeBanner(ConfigurationWrapper.GamePath)
-            Using dialog As New OpenFileDialog
+            Dim bnr = Await GetBanner()
+            Using dialog As New SaveFileDialog
                 dialog.Filter = "Homebrew Channel meta.xml (*.xml)|*.xml"
                 If dialog.ShowDialog(Me) = DialogResult.OK Then
                     If Not ConfigurationWrapper.AUTO_BOOT Then
@@ -124,10 +147,10 @@ https://github.com/FIX94/Nintendont")
 
                     Dim meta As New MetaXml With {
                         .Version = 1,
-                        .Name = bnr.GameLong,
-                        .Coder = bnr.DeveloperLong,
+                        .Name = bnr?.GameLong,
+                        .Coder = bnr?.DeveloperLong,
                         .ShortDescription = "",
-                        .LongDescription = bnr.DescriptionString,
+                        .LongDescription = bnr?.DescriptionString,
                         .NoIosReload = True,
                         .AhbAccess = True,
                         .Arguments = New String() {Convert.ToBase64String(ConfigurationWrapper.Export())}
@@ -146,6 +169,9 @@ https://github.com/FIX94/Nintendont")
     End Sub
 
     Private Async Sub ExportBannerImageToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportBannerImageToolStripMenuItem.Click
+        If ConfigurationWrapper Is Nothing Then
+            Return
+        End If
         Try
             Dim bnr = Await Banner.ExportGameCubeBanner(ConfigurationWrapper.GamePath)
             Dim image = bnr.GetImage()
@@ -161,6 +187,9 @@ https://github.com/FIX94/Nintendont")
     End Sub
 
     Private Async Sub ExportBannerImagepadTo128x48ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportBannerImagepadTo128x48ToolStripMenuItem.Click
+        If ConfigurationWrapper Is Nothing Then
+            Return
+        End If
         Try
             Dim bnr = Await Banner.ExportGameCubeBanner(ConfigurationWrapper.GamePath)
             Dim image1 = bnr.GetImage()
@@ -180,6 +209,9 @@ https://github.com/FIX94/Nintendont")
     End Sub
 
     Private Async Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If ConfigurationWrapper Is Nothing Then
+            Return
+        End If
         Using dialog As New OpenFileDialog
             dialog.Filter = "GameCube disc images (*.iso, *.gcm)|*.iso;*.gcm"
             If dialog.ShowDialog() = DialogResult.OK Then
@@ -196,6 +228,9 @@ https://github.com/FIX94/Nintendont")
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        If ConfigurationWrapper Is Nothing Then
+            Return
+        End If
         Using dialog As New OpenFileDialog
             If dialog.ShowDialog() = DialogResult.OK Then
                 Dim path = dialog.FileName.Replace("\", "/")
@@ -207,6 +242,14 @@ https://github.com/FIX94/Nintendont")
                 PropertyGrid1.Refresh()
             End If
         End Using
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        If ConfigurationWrapper Is Nothing Then
+            Return
+        End If
+        ConfigurationWrapper.GamePath = "di"
+        PropertyGrid1.Refresh()
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
