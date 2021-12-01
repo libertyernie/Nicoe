@@ -120,6 +120,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Nicoe.Configuration.V10\Nicoe.Configuration.V10.vcxproj">
+      <Project>{307757e2-2ddd-4597-be1b-4975107c6648}</Project>
+      <Name>Nicoe.Configuration.V10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nicoe.Configuration.V8\Nicoe.Configuration.V8.vcxproj">
+      <Project>{8a6f6497-e4a7-4659-8125-546a4a48d4a4}</Project>
+      <Name>Nicoe.Configuration.V8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nicoe.Configuration.V9\Nicoe.Configuration.V9.vcxproj">
+      <Project>{0e34ddcd-bd28-46a3-9de7-0d4df0e6dda3}</Project>
+      <Name>Nicoe.Configuration.V9</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nicoe.Configuration\Nicoe.Configuration.csproj">
+      <Project>{5f6e1e10-e2ff-4759-856e-9ef440ead5cd}</Project>
+      <Name>Nicoe.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nicoe.HBC\Nicoe.HBC.csproj">
       <Project>{80456371-1af8-4462-81a5-9a087db5baaa}</Project>
       <Name>Nicoe.HBC</Name>
@@ -127,10 +143,6 @@
     <ProjectReference Include="..\Nicoe.BannerExtraction\Nicoe.BannerExtraction.csproj">
       <Project>{405c7f60-4cd2-401f-af6f-46e82f6dd01f}</Project>
       <Name>Nicoe.BannerExtraction</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nicoe\Nicoe.vcxproj">
-      <Project>{3c430264-8987-468b-a705-02d1e9a07faa}</Project>
-      <Name>Nicoe</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

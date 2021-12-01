@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nicoe\Nicoe.vcxproj" />
+    <ProjectReference Include="..\Nicoe.Configuration.V10\Nicoe.Configuration.V10.vcxproj" />
   </ItemGroup>
 
 </Project>

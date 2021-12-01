@@ -3,7 +3,23 @@
 #include <cstdint>
 #include <winsock.h>
 
-#define NIN_CFG_VERSION		0x0000000A
+using namespace System;
+using namespace System::ComponentModel;
+using namespace System::IO;
+using namespace System::Text;
+using namespace System::Runtime::InteropServices;
+
+namespace Nicoe {
+namespace Configuration {
+#if NIN_CFG_VERSION == 8
+namespace V8 {
+#endif
+#if NIN_CFG_VERSION == 9
+namespace V9 {
+#endif
+#if NIN_CFG_VERSION == 10
+namespace V10 {
+#endif
 
 #define NIN_CFG_MAXPAD 4
 
@@ -22,7 +38,9 @@ typedef struct NIN_CFG
 	int8_t			VideoScale;
 	int8_t			VideoOffset;
 	uint8_t			NetworkProfile;
+#if NIN_CFG_VERSION >= 10
 	uint32_t		WiiUGamepadSlot;
+#endif
 } NIN_CFG;
 
 enum ninconfigbitpos
@@ -144,7 +162,7 @@ enum ninlanguage
 	NIN_LAN_FIRST		= 0,
 	NIN_LAN_LAST		= 6, 
 /* Auto will use English for E/P region codes and 
-   only other languages when these region codes are used: D/F/S/I/J  */
+	only other languages when these region codes are used: D/F/S/I/J  */
 
 	NIN_LAN_AUTO		= -1, 
 };
@@ -169,12 +187,6 @@ enum VideoModes
 #define MEM_CARD_SIZE(x) (1<<(x+19))
 #define MEM_CARD_BLOCKS(x) ((1<<(x+6))-5)
 
-using namespace System;
-using namespace System::ComponentModel;
-using namespace System::IO;
-using namespace System::Text;
-using namespace System::Runtime::InteropServices;
-
 NIN_CFG nincfg_ntoh(NIN_CFG initial) {
 	NIN_CFG ncfg = initial;
 	ncfg.Magicbytes = ntohl(initial.Magicbytes);
@@ -183,7 +195,9 @@ NIN_CFG nincfg_ntoh(NIN_CFG initial) {
 	ncfg.VideoMode = ntohl(initial.VideoMode);
 	ncfg.Language = ntohl(initial.Language);
 	ncfg.MaxPads = ntohl(initial.MaxPads);
+#if NIN_CFG_VERSION >= 10
 	ncfg.WiiUGamepadSlot = ntohl(initial.WiiUGamepadSlot);
+#endif
 	return ncfg;
 }
 
@@ -195,7 +209,9 @@ NIN_CFG nincfg_hton(NIN_CFG initial) {
 	ncfg.VideoMode = htonl(initial.VideoMode);
 	ncfg.Language = htonl(initial.Language);
 	ncfg.MaxPads = htonl(initial.MaxPads);
+#if NIN_CFG_VERSION >= 10
 	ncfg.WiiUGamepadSlot = htonl(initial.WiiUGamepadSlot);
+#endif
 	return ncfg;
 }
 
@@ -243,11 +259,11 @@ public enum class NinCFGForcedVideoMode {
 	MPAL = NIN_VID_FORCE_MPAL,
 };
 
-#define FLAGBOOL(fname, pname) property bool pname { bool get() { return ncfg->Config & fname; } void set(bool value) { ncfg->Config &= ~fname; if (value) { ncfg->Config |= fname; } } }
-#define STRINGPROP(fname, ptr) property String^ fname { String^ get() { return FromUTF8FixedBuffer(ptr, sizeof(ptr)); } void set(String^ value) { WriteToUTF8FixedBuffer(ptr, sizeof(ptr), value); } }
-#define PRIMITIVEPROP(outtype, outname, intype, inname) property outtype outname { outtype get() { return (outtype)inname; } void set(outtype value) { inname = (intype)value; } }
+#define FLAGBOOL(fname, pname) virtual property bool pname { bool get() { return ncfg->Config & fname; } void set(bool value) { ncfg->Config &= ~fname; if (value) { ncfg->Config |= fname; } } }
+#define STRINGPROP(fname, ptr) virtual property String^ fname { String^ get() { return FromUTF8FixedBuffer(ptr, sizeof(ptr)); } void set(String^ value) { WriteToUTF8FixedBuffer(ptr, sizeof(ptr), value); } }
+#define PRIMITIVEPROP(outtype, outname, intype, inname) virtual property outtype outname { outtype get() { return (outtype)inname; } void set(outtype value) { inname = (intype)value; } }
 
-public ref class NintendontConfiguration {
+public ref class NintendontConfiguration : INintendontConfiguration {
 private:
 	NIN_CFG* ncfg;
 
@@ -336,6 +352,7 @@ private:
 			ncfg->Config &= ~NIN_CFG_SKIP_IPL;
 			ncfg->Version = 8;
 		}
+#if NIN_CFG_VERSION > 8
 		if (ncfg->Version == 8)
 		{	// BBA Emu disabled by default
 			// BBA Config 0 by default
@@ -343,10 +360,13 @@ private:
 			ncfg->NetworkProfile = 0;
 			ncfg->Version = 9;
 		}
+#endif
+#if NIN_CFG_VERSION > 9
 		if (ncfg->Version == 9) {
 			ncfg->WiiUGamepadSlot = 0;
 			ncfg->Version = 10;
 		}
+#endif
 	}
 public:
 	NintendontConfiguration() {
@@ -354,14 +374,14 @@ public:
 		Reset();
 	}
 
-	void Load(Stream^ stream) {
+	virtual void Load(Stream^ stream) {
 		if (LoadNinCFG(stream) == false)
 		{
 			Reset();
 		}
 	}
 
-	void Load(array<uint8_t>^ data) {
+	virtual void Load(array<uint8_t>^ data) {
 		MemoryStream inputStream(data, false);
 		Load(% inputStream);
 	}
@@ -374,7 +394,7 @@ public:
 		return memcmp(x->ncfg, ncfg, sizeof(NIN_CFG)) == 0;
 	}
 
-	property uint32_t Version {
+	virtual property uint32_t Version {
 		uint32_t get() {
 			return ncfg->Version;
 		}
@@ -455,7 +475,7 @@ public:
 	[CategoryAttribute("Nintendont Configuration Flags")]
 	FLAGBOOL(NIN_CFG_MC_SLOTB, MC_SLOTB)
 
-	property NinCFGVideoMode VideoMode {
+	virtual property NinCFGVideoMode VideoMode {
 		NinCFGVideoMode get() {
 			return (NinCFGVideoMode)(ncfg->VideoMode & NIN_VID_MASK);
 		}
@@ -465,7 +485,7 @@ public:
 		}
 	}
 
-	property NinCFGForcedVideoMode ForcedVideoMode {
+	virtual property NinCFGForcedVideoMode ForcedVideoMode {
 		NinCFGForcedVideoMode get() {
 			return (NinCFGForcedVideoMode)(ncfg->VideoMode & NIN_VID_FORCE_MASK);
 		}
@@ -475,7 +495,7 @@ public:
 		}
 	}
 
-	property bool ProgressiveScan {
+	virtual property bool ProgressiveScan {
 		bool get() {
 			return ncfg->VideoMode & NIN_VID_PROG;
 		}
@@ -487,7 +507,7 @@ public:
 		}
 	}
 
-	property bool PAL50Patch {
+	virtual property bool PAL50Patch {
 		bool get() {
 			return ncfg->VideoMode & NIN_VID_PATCH_PAL50;
 		}
@@ -519,31 +539,35 @@ public:
 	[DescriptionAttribute("Horizontal video offest. Valid options range from -20 to 20 (inclusive).")]
 	PRIMITIVEPROP(int8_t, VideoOffset, int8_t, ncfg->VideoOffset)
 
+#if NIN_CFG_VERSION >= 9
 	[DescriptionAttribute("Force a Network Profile to use for BBA Emulation, this option only works on the original Wii because on Wii U the profiles are managed by the Wii U Menu. This means you can even use profiles that cannot connect to the internet.")]
 	PRIMITIVEPROP(uint8_t, NetworkProfile, uint8_t, ncfg->NetworkProfile)
+#endif
 
+#if NIN_CFG_VERSION >= 10
 	[DescriptionAttribute("Indicates the GameCube controller to assign Wii U GamePad inputs to: 0=P1, 1=P2, 2=P3, 3=P4.")]
 	PRIMITIVEPROP(uint32_t, WiiUGamepadSlot, uint32_t, ncfg->WiiUGamepadSlot)
+#endif
 
-	property int32_t MemoryCardSize {
+	virtual property int32_t MemoryCardSize {
 		int32_t get() {
 			return MEM_CARD_SIZE(ncfg->MemCardBlocks);
 		}
 	}
 
-	property int32_t MemoryCardBlocks {
+	virtual property int32_t MemoryCardBlocks {
 		int32_t get() {
 			return MEM_CARD_BLOCKS(ncfg->MemCardBlocks);
 		}
 	}
 
-	property String^ VideoWidth {
+	virtual property String^ VideoWidth {
 		String^ get() {
 			return ncfg->VideoScale < 40 || ncfg->VideoScale > 120 ? "Auto" : (ncfg->VideoScale + 600).ToString();
 		}
 	}
 
-	array<uint8_t>^ Export() {
+	virtual array<uint8_t>^ Export() {
 		NIN_CFG toExport = nincfg_hton(*ncfg);
 
 		array<uint8_t>^ arr = gcnew array<uint8_t>(sizeof(NIN_CFG));
@@ -553,7 +577,7 @@ public:
 		return arr;
 	}
 
-	void Reset() {
+	virtual void Reset() {
 		memset(ncfg, 0, sizeof(NIN_CFG));
 
 		ncfg->Magicbytes = 0x01070CF6;
@@ -574,3 +598,7 @@ public:
 		}
 	}
 };
+
+}
+}
+}

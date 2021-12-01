@@ -1,6 +1,7 @@
 namespace Nicoe.Tests
 
 open System
+open Nicoe.Configuration.V10
 open Microsoft.VisualStudio.TestTools.UnitTesting
 
 [<TestClass>]

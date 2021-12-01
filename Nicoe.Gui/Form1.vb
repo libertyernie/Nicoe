@@ -2,10 +2,20 @@
 Imports System.Xml.Serialization
 Imports Nicoe.HBC
 Imports Nicoe.BannerExtraction
+Imports Nicoe.Configuration
 
 Public Class Form1
-    Private ReadOnly ConfigurationWrapper As New NintendontConfiguration()
-    Private LastDataLoaded = ConfigurationWrapper.Export()
+    Private LastDataLoaded As Byte() = {}
+
+    Private Property ConfigurationWrapper As INintendontConfiguration
+        Get
+            Return TryCast(PropertyGrid1.SelectedObject, INintendontConfiguration)
+        End Get
+        Set(value As INintendontConfiguration)
+            PropertyGrid1.SelectedObject = value
+            LastDataLoaded = value.Export()
+        End Set
+    End Property
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         PropertyGrid1.SelectedObject = ConfigurationWrapper
@@ -20,19 +30,26 @@ Public Class Form1
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
-        ConfigurationWrapper.Reset()
+        ConfigurationWrapper = New V10.NintendontConfiguration()
         PropertyGrid1.Refresh()
     End Sub
 
     Private Sub LoadFile(data As Byte())
         Dim fileVersion = data(4) << 24 Or data(5) << 16 Or data(6) << 8 Or data(7)
 
+        If fileVersion <= 8 Then
+            ConfigurationWrapper = New V8.NintendontConfiguration()
+        ElseIf fileVersion <= 9 Then
+            ConfigurationWrapper = New V9.NintendontConfiguration()
+        Else
+            ConfigurationWrapper = New V10.NintendontConfiguration()
+        End If
         ConfigurationWrapper.Load(data)
         LastDataLoaded = ConfigurationWrapper.Export()
         PropertyGrid1.Refresh()
 
         If fileVersion <> ConfigurationWrapper.Version Then
-            MsgBox($"This file will be automatically updated from version {fileVersion} to version {ConfigurationWrapper.Version} when you save your changes. Be sure you have the most recent Nintendont build.")
+            MsgBox($"This file will be automatically updated from version {fileVersion} to version {ConfigurationWrapper.Version} when you save your changes. Be sure you have a matching Nintendont build.")
         End If
     End Sub
 
@@ -191,7 +208,7 @@ https://github.com/FIX94/Nintendont")
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If Not ConfigurationWrapper.Export().SequenceEqual(LastDataLoaded) Then
+        If ConfigurationWrapper IsNot Nothing AndAlso Not ConfigurationWrapper.Export().SequenceEqual(LastDataLoaded) Then
             Dim result = MsgBox("Save changes to this file before closing?", MsgBoxStyle.YesNoCancel)
             If result = MsgBoxResult.Cancel Then
                 e.Cancel = True
