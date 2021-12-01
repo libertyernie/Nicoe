@@ -38,7 +38,7 @@ Public Class Form1
         Dim readAs = data(4) << 24 Or data(5) << 16 Or data(6) << 8 Or data(7)
 
         If readAs < 10 Then
-            If MsgBox($"This is a version {readAs} nincfg.bin file. Would you like to update it to version 10 so it works with newer builds of Nintendont?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            If MsgBox($"This is a version {readAs} nincfg.bin file. Would you like to update it to version 10 (used by newer builds of Nintendont)?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                 readAs = 10
             End If
         End If
