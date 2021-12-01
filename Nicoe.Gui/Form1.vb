@@ -11,7 +11,7 @@ Public Class Form1
         PropertyGrid1.SelectedObject = ConfigurationWrapper
 
         If My.Application.CommandLineArgs.Count = 1 Then
-            LoadFile(My.Application.CommandLineArgs.Single())
+            LoadFile(File.ReadAllBytes(My.Application.CommandLineArgs.Single()))
         End If
     End Sub
 
@@ -24,19 +24,23 @@ Public Class Form1
         PropertyGrid1.Refresh()
     End Sub
 
-    Private Sub LoadFile(path As String)
-        Using fs As New FileStream(path, FileMode.Open, FileAccess.Read)
-            ConfigurationWrapper.Load(fs)
-            LastDataLoaded = ConfigurationWrapper.Export()
-            PropertyGrid1.Refresh()
-        End Using
+    Private Sub LoadFile(data As Byte())
+        Dim fileVersion = data(4) << 24 Or data(5) << 16 Or data(6) << 8 Or data(7)
+
+        ConfigurationWrapper.Load(data)
+        LastDataLoaded = ConfigurationWrapper.Export()
+        PropertyGrid1.Refresh()
+
+        If fileVersion <> ConfigurationWrapper.Version Then
+            MsgBox($"This file will be automatically updated from version {fileVersion} to version {ConfigurationWrapper.Version} when you save your changes. Be sure you have the most recent Nintendont build.")
+        End If
     End Sub
 
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
         Using dialog As New OpenFileDialog
             dialog.Filter = "Nintendont configuration files (*.bin)|*.bin"
             If dialog.ShowDialog(Me) = DialogResult.OK Then
-                LoadFile(dialog.FileName)
+                LoadFile(File.ReadAllBytes(dialog.FileName))
             End If
         End Using
     End Sub
@@ -75,9 +79,7 @@ https://github.com/FIX94/Nintendont")
                         MsgBox("Could not find a base-64-encoded nincfg.dat in the first argument in meta.xml.")
                     Else
                         Dim data = Convert.FromBase64String(base64)
-                        ConfigurationWrapper.Load(data)
-                        LastDataLoaded = ConfigurationWrapper.Export()
-                        PropertyGrid1.Refresh()
+                        LoadFile(data)
                     End If
                 End Using
             End If

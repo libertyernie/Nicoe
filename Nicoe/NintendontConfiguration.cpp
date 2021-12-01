@@ -374,6 +374,12 @@ public:
 		return memcmp(x->ncfg, ncfg, sizeof(NIN_CFG)) == 0;
 	}
 
+	property uint32_t Version {
+		uint32_t get() {
+			return ncfg->Version;
+		}
+	}
+
 	[CategoryAttribute("Nintendont Configuration Flags")]
 	FLAGBOOL(NIN_CFG_CHEATS, CHEATS)
 
