@@ -7,8 +7,7 @@ Serves as a replacement for [NinCFGEditor](https://github.com/libertyernie/NinCF
 
 Features:
 
-* Open / save nincfg.bin files (version 8, 9, or 10)
-* Create new nincfg.bin files (version 10 only)
+* Create / open / save nincfg.bin files (version 8, 9, or 10)
 * Update nincfg.bin files to version 10
 * Read the Game ID directly from a disc image
 * Extract the banner (as .png) from a disc image
