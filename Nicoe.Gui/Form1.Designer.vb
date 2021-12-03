@@ -26,6 +26,7 @@ Partial Class Form1
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -39,7 +40,9 @@ Partial Class Form1
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.NINCFGV10ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NINCFGv9ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NINCFGV8ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -72,9 +75,9 @@ Partial Class Form1
         'Button2
         '
         Me.Button2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Button2.Location = New System.Drawing.Point(130, 3)
+        Me.Button2.Location = New System.Drawing.Point(131, 3)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(121, 20)
+        Me.Button2.Size = New System.Drawing.Size(122, 20)
         Me.Button2.TabIndex = 1
         Me.Button2.Text = "Browse for CheatPath"
         Me.Button2.UseVisualStyleBackColor = True
@@ -84,10 +87,20 @@ Partial Class Form1
         Me.Button1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Button1.Location = New System.Drawing.Point(3, 3)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(121, 20)
+        Me.Button1.Size = New System.Drawing.Size(122, 20)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Browse for GamePath"
         Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Button3.Location = New System.Drawing.Point(259, 3)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(122, 20)
+        Me.Button3.TabIndex = 2
+        Me.Button3.Text = "Set to read from disc"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'FileToolStripMenuItem
         '
@@ -98,26 +111,27 @@ Partial Class Form1
         '
         'NewToolStripMenuItem
         '
+        Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NINCFGV10ToolStripMenuItem, Me.NINCFGv9ToolStripMenuItem, Me.NINCFGV8ToolStripMenuItem})
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.NewToolStripMenuItem.Text = "&New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.OpenToolStripMenuItem.Text = "&Open..."
         '
         'SaveAsToolStripMenuItem
         '
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SaveAsToolStripMenuItem.Text = "&Save As..."
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'ToolsToolStripMenuItem
@@ -173,15 +187,23 @@ Partial Class Form1
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
-        'Button3
+        'NINCFGV10ToolStripMenuItem
         '
-        Me.Button3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Button3.Location = New System.Drawing.Point(257, 3)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(124, 20)
-        Me.Button3.TabIndex = 2
-        Me.Button3.Text = "Set to read from disc"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.NINCFGV10ToolStripMenuItem.Name = "NINCFGV10ToolStripMenuItem"
+        Me.NINCFGV10ToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NINCFGV10ToolStripMenuItem.Text = "&NIN_CFG v10"
+        '
+        'NINCFGv9ToolStripMenuItem
+        '
+        Me.NINCFGv9ToolStripMenuItem.Name = "NINCFGv9ToolStripMenuItem"
+        Me.NINCFGv9ToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NINCFGv9ToolStripMenuItem.Text = "NIN_CFG v&9"
+        '
+        'NINCFGV8ToolStripMenuItem
+        '
+        Me.NINCFGV8ToolStripMenuItem.Name = "NINCFGV8ToolStripMenuItem"
+        Me.NINCFGV8ToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NINCFGV8ToolStripMenuItem.Text = "NIN_CFG v&8"
         '
         'Form1
         '
@@ -219,4 +241,7 @@ Partial Class Form1
     Friend WithEvents Button2 As Button
     Friend WithEvents ExportBannerImagepadTo128x48ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Button3 As Button
+    Friend WithEvents NINCFGV10ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NINCFGv9ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NINCFGV8ToolStripMenuItem As ToolStripMenuItem
 End Class

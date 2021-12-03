@@ -29,8 +29,18 @@ Public Class Form1
         PropertyGrid1.Refresh()
     End Sub
 
-    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+    Private Sub NINCFGV10ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NINCFGV10ToolStripMenuItem.Click
         ConfigurationWrapper = New V10.NintendontConfiguration()
+        PropertyGrid1.Refresh()
+    End Sub
+
+    Private Sub NINCFGv9ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NINCFGv9ToolStripMenuItem.Click
+        ConfigurationWrapper = New V9.NintendontConfiguration()
+        PropertyGrid1.Refresh()
+    End Sub
+
+    Private Sub NINCFGV8ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NINCFGV8ToolStripMenuItem.Click
+        ConfigurationWrapper = New V8.NintendontConfiguration()
         PropertyGrid1.Refresh()
     End Sub
 
@@ -81,7 +91,7 @@ Public Class Form1
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        MsgBox("Nicoe (Nintendont Configuration Editor) 10.2
+        MsgBox("Nicoe (Nintendont Configuration Editor) 10.3
 © 2017-2021 libertyernie
 https://github.com/libertyernie/nicoe
 
